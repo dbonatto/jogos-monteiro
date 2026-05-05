@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Review — Extração de PDFs</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .field-row { @apply flex gap-2 mb-2; }
+        .field-label { @apply font-semibold text-sm text-gray-700 w-24 flex-shrink-0; }
+        .field-input { @apply flex-1 px-2 py-1 border rounded text-sm; }
+        .snippet-box { @apply bg-gray-50 p-3 rounded border border-gray-300 font-mono text-xs max-h-48 overflow-y-auto; }
+        .confidence-low { @apply text-red-600; }
+        .confidence-med { @apply text-yellow-600; }
+        .confidence-high { @apply text-green-600; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold">Revisão de Extração de PDFs</h1>
+            <div class="text-sm text-gray-600">
+                <span id="current-count">0</span> / <span id="total-count">0</span>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="bg-white rounded-lg shadow p-4 mb-6">
+            <div class="flex gap-4 flex-wrap items-center">
+                <div class="flex-1 min-w-64">
+                    <label class="block text-sm font-medium mb-1">Carregar dados:</label>
+                    <input type="file" id="csv-input" accept=".csv" class="w-full px-2 py-1 border rounded text-sm">
+                </div>
+                <button id="btn-load" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Carregar CSV</button>
+                <button id="btn-export" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" disabled>Exportar CSV</button>
+            </div>
+        </div>
+
+        <!-- Editor de registro -->
+        <div id="editor" class="hidden bg-white rounded-lg shadow p-6 mb-6">
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Coluna esquerda: snippet do PDF -->
+                <div>
+                    <h3 class="font-semibold mb-2">Snippet Extraído</h3>
+                    <div class="snippet-box">
+                        <div id="snippet-text">-</div>
+                    </div>
+                    <div class="text-xs text-gray-600 mt-2">
+                        Fonte: <span id="snippet-source">-</span>
+                    </div>
+                </div>
+
+                <!-- Coluna direita: campos editáveis -->
+                <div>
+                    <h3 class="font-semibold mb-4">Dados Estruturados</h3>
+
+                    <div class="field-row">
+                        <label class="field-label">Data:</label>
+                        <input type="text" id="field-date" class="field-input" placeholder="DD/MM">
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Dia:</label>
+                        <select id="field-day" class="field-input">
+                            <option value="">-</option>
+                            <option value="Segunda">Segunda</option>
+                            <option value="Terça">Terça</option>
+                            <option value="Quarta">Quarta</option>
+                            <option value="Quinta">Quinta</option>
+                            <option value="Sexta">Sexta</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Período:</label>
+                        <select id="field-period" class="field-input">
+                            <option value="">-</option>
+                            <option value="Manhã">Manhã</option>
+                            <option value="Tarde">Tarde</option>
+                            <option value="Noite">Noite</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Local:</label>
+                        <input type="text" id="field-location" class="field-input" placeholder="Colégio Monteiro Lobato">
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Hora:</label>
+                        <input type="text" id="field-time" class="field-input" placeholder="8h00">
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Quadra:</label>
+                        <input type="text" id="field-court" class="field-input" placeholder="Quadra Grande Externa">
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Série:</label>
+                        <input type="text" id="field-grade" class="field-input" placeholder="3º ano Ensino Médio">
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Esporte:</label>
+                        <input type="text" id="field-sport" class="field-input" placeholder="Basquete">
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Gênero:</label>
+                        <select id="field-gender" class="field-input">
+                            <option value="">-</option>
+                            <option value="Masc">Masculino</option>
+                            <option value="Fem">Feminino</option>
+                            <option value="Misto">Misto</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label class="field-label">Times:</label>
+                        <input type="text" id="field-teams" class="field-input" placeholder="VERMELHO X ROXO">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões de navegação -->
+            <div class="flex gap-4 mt-6 justify-between">
+                <div class="flex gap-2">
+                    <button id="btn-prev" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">← Anterior</button>
+                    <button id="btn-next" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Próximo →</button>
+                </div>
+                <div class="flex gap-2">
+                    <button id="btn-skip" class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Pular</button>
+                    <button id="btn-save" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div id="status" class="bg-blue-50 border border-blue-300 rounded p-4 text-sm text-blue-900 hidden">
+            <span id="status-text"></span>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_FIELDS = [
+            'date', 'day', 'period', 'location', 'time', 'court',
+            'grade', 'sport', 'gender', 'teams'
+        ];
+
+        let rawData = [];
+        let editedData = [];
+        let currentIndex = 0;
+
+        function showStatus(msg, type = 'info') {
+            const status = document.getElementById('status');
+            const text = document.getElementById('status-text');
+            text.textContent = msg;
+            status.className = `bg-${type}-50 border border-${type}-300 rounded p-4 text-sm text-${type}-900`;
+            status.classList.remove('hidden');
+            setTimeout(() => status.classList.add('hidden'), 4000);
+        }
+
+        function loadCSV(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const csv = e.target.result;
+                const lines = csv.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                rawData = [];
+                for (let i = 1; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    const values = lines[i].split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1'));
+                    const row = {};
+                    headers.forEach((h, idx) => {
+                        row[h] = values[idx] || '';
+                    });
+                    rawData.push(row);
+                }
+                
+                editedData = JSON.parse(JSON.stringify(rawData));
+                currentIndex = 0;
+                
+                document.getElementById('total-count').textContent = rawData.length;
+                document.getElementById('editor').classList.remove('hidden');
+                
+                showRecord(0);
+                showStatus(`Carregados ${rawData.length} registros`, 'info');
+            };
+            reader.readAsText(file);
+        }
+
+        function showRecord(index) {
+            if (index < 0 || index >= rawData.length) return;
+            
+            currentIndex = index;
+            const record = rawData[index];
+            const edited = editedData[index] || {};
+            
+            document.getElementById('current-count').textContent = index + 1;
+            
+            // Mostra snippet
+            document.getElementById('snippet-text').textContent = record.raw || record['raw'] || '(vazio)';
+            document.getElementById('snippet-source').textContent = 
+                `${record.pdf} (página ${record.page}, linha ${record.line_no})`;
+            
+            // Carrega campos
+            DEFAULT_FIELDS.forEach(field => {
+                const el = document.getElementById(`field-${field}`);
+                if (el) {
+                    el.value = edited[field] || '';
+                }
+            });
+        }
+
+        function saveRecord() {
+            const record = {};
+            DEFAULT_FIELDS.forEach(field => {
+                const el = document.getElementById(`field-${field}`);
+                record[field] = el ? el.value : '';
+            });
+            editedData[currentIndex] = { ...rawData[currentIndex], ...record };
+            showStatus('Salvo!', 'success');
+        }
+
+        function exportCSV() {
+            const headers = [
+                'date', 'day', 'period', 'location', 'time', 'court',
+                'grade', 'sport', 'gender', 'teams', 'raw', 'pdf', 'page', 'line_no'
+            ];
+            
+            let csv = headers.join(',') + '\n';
+            editedData.forEach(row => {
+                const values = headers.map(h => {
+                    let v = row[h] || '';
+                    if (typeof v === 'string' && (v.includes(',') || v.includes('\n') || v.includes('"'))) {
+                        v = `"${v.replace(/"/g, '""')}"`;
+                    }
+                    return v;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `extracted-reviewed-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            showStatus(`Exportados ${editedData.length} registros`, 'success');
+        }
+
+        document.getElementById('csv-input').addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                loadCSV(e.target.files[0]);
+            }
+        });
+
+        document.getElementById('btn-load').addEventListener('click', () => {
+            document.getElementById('csv-input').click();
+        });
+
+        document.getElementById('btn-next').addEventListener('click', () => {
+            saveRecord();
+            if (currentIndex < rawData.length - 1) showRecord(currentIndex + 1);
+        });
+
+        document.getElementById('btn-prev').addEventListener('click', () => {
+            saveRecord();
+            if (currentIndex > 0) showRecord(currentIndex - 1);
+        });
+
+        document.getElementById('btn-skip').addEventListener('click', () => {
+            if (currentIndex < rawData.length - 1) showRecord(currentIndex + 1);
+        });
+
+        document.getElementById('btn-save').addEventListener('click', () => {
+            saveRecord();
+        });
+
+        document.getElementById('btn-export').addEventListener('click', () => {
+            if (editedData.length === 0) {
+                showStatus('Nenhum dado para exportar', 'warning');
+                return;
+            }
+            exportCSV();
+        });
+
+        // Habilita export quando há dados
+        document.addEventListener('DOMContentLoaded', () => {
+            // Já habilitado via onChange
+        });
+    </script>
+</body>
+</html>

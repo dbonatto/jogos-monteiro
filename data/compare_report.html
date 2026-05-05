@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Comparação — Jogos 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .card { @apply bg-white rounded-xl shadow-sm border p-4 mb-3; }
+  pre { white-space: pre-wrap; word-break: break-all; font-size: 0.75rem; }
+  .ok { background: #f0fdf4; border-left: 4px solid #22c55e; }
+  .warn { background: #fff7ed; border-left: 4px solid #f97316; }
+  .error { background: #fef2f2; border-left: 4px solid #ef4444; }
+  .info { background: #eff6ff; border-left: 4px solid #3b82f6; }
+  .tab-btn.active { background:#1e40af; color:white; }
+  .tab-content { display:none; }
+  .tab-content.active { display:block; }
+</style>
+</head>
+<body class="bg-gray-100 p-4">
+<div class="max-w-6xl mx-auto">
+
+<div class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white rounded-2xl p-6 mb-6 shadow-xl">
+  <h1 class="text-2xl font-black mb-1">📊 Relatório de Comparação de Dados</h1>
+  <p class="text-blue-200 text-sm">HTML (rawData) ↔ PDFs extraídos</p>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+    <div class="bg-white/10 rounded-xl p-3 text-center">
+      <div class="text-2xl font-black">412</div>
+      <div class="text-xs text-blue-200">Jogos no HTML</div>
+    </div>
+    <div class="bg-white/10 rounded-xl p-3 text-center">
+      <div class="text-2xl font-black">527</div>
+      <div class="text-xs text-blue-200">Linhas extraídas (PDFs)</div>
+    </div>
+    <div class="bg-white/10 rounded-xl p-3 text-center">
+      <div class="text-2xl font-black text-red-300">124</div>
+      <div class="text-xs text-blue-200">Problemas detectados</div>
+    </div>
+    <div class="bg-white/10 rounded-xl p-3 text-center">
+      <div class="text-2xl font-black text-green-300">0</div>
+      <div class="text-xs text-blue-200">Linhas PDF sem match</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="flex gap-2 mb-4 flex-wrap">
+  <button class="tab-btn active px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 hover:border-blue-400" onclick="showTab('issues')">⚠️ Problemas no HTML (124)</button>
+  <button class="tab-btn px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 hover:border-blue-400" onclick="showTab('orphans')">🔍 Linhas PDF sem match (0)</button>
+  <button class="tab-btn px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 hover:border-blue-400" onclick="showTab('coverage')">✅ Cobertura por data</button>
+  <button class="tab-btn px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 hover:border-blue-400" onclick="showTab('rawpdf')">📄 PDF bruto por arquivo</button>
+</div>
+
+<!-- TAB: Problemas -->
+<div id="tab-issues" class="tab-content active">
+  <h2 class="text-lg font-black text-slate-800 mb-4">⚠️ Problemas detectados no HTML</h2>
+  
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 120: 04/05 | 8h00 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 26</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|8h00|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 121: 04/05 | 8h00 | Monteiro Open | Dodgeball</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 27</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|8h00|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 123: 04/05 | 8h40 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 29</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|8h40|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 124: 04/05 | 8h40 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 30</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|8h40|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 126: 04/05 | 9h20 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 32</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|9h20|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERDE X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 127: 04/05 | 9h20 | Monteiro Open | Dodgeball</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 33</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|9h20|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 129: 04/05 | 10h30 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 35</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|10h30|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 130: 04/05 | 10h30 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 36</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|10h30|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 132: 04/05 | 11h10 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 38</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|11h10|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 133: 04/05 | 11h10 | Monteiro Open | Dodgeball</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 39</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|11h10|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 135: 04/05 | 11h50 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 41</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|11h50|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 136: 04/05 | 11h50 | Monteiro Open | Basquetebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 42</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Noite|Monteiro Open|11h50|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 167: 05/05 | 14h00 | Colégio Monteiro Lobato | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 161</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Masc|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 170: 05/05 | 14h40 | Colégio Monteiro Lobato | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 162</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Colégio Monteiro Lobato|14h40|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 173: 05/05 | 15h20 | Colégio Monteiro Lobato | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 163</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Colégio Monteiro Lobato|15h20|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 176: 05/05 | 16h20 | Colégio Monteiro Lobato | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 164</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Colégio Monteiro Lobato|16h20|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Fem|VERDE X VERMELHO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 179: 05/05 | 17h00 | Colégio Monteiro Lobato | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 165</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Colégio Monteiro Lobato|17h00|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Fem|ROXO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 182: 05/05 | 17h30 | Colégio Monteiro Lobato | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 166</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Colégio Monteiro Lobato|17h30|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Fem|ROXO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 185: 05/05 | 8h00 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 137</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h00|Quadra Grande Externa|3º ano Ensino Médio|Handebol|Masc|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 186: 05/05 | 8h00 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 138</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h00|Quadra Pequena Externa|6º ano Ensino Fundamental II|Futsal|Masc|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 187: 05/05 | 8h00 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 139</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h00|Quadra Coberta|7º ano Ensino Fundamental II|Futsal|Masc|VERMELHO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 188: 05/05 | 8h00 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 140</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h00|Quadra de Voleibol Externa|8º ano Ensino Fundamental II|Handebol|Masc|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 189: 05/05 | 8h40 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 141</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h40|Quadra Grande Externa|2º ano Ensino Médio|Handebol|Masc|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 190: 05/05 | 8h40 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 142</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h40|Quadra Pequena Externa|6º ano Ensino Fundamental II|Futsal|Fem|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 191: 05/05 | 8h40 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 143</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h40|Quadra Coberta|7º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 192: 05/05 | 8h40 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 144</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|8h40|Quadra de Voleibol Externa|8º ano Ensino Fundamental II|Handebol|Fem|VERDE X VERMELHO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 193: 05/05 | 9h20 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 145</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|9h20|Quadra Grande Externa|3º ano Ensino Médio|Handebol|Masc|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 194: 05/05 | 9h20 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 146</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|9h20|Quadra Pequena Externa|6º ano Ensino Fundamental II|Futsal|Masc|VERDE X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 195: 05/05 | 9h20 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 147</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|9h20|Quadra Coberta|7º ano Ensino Fundamental II|Futsal|Masc|ROXO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 196: 05/05 | 9h20 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 148</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|9h20|Quadra de Voleibol Externa|8º ano Ensino Fundamental II|Handebol|Masc|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 197: 05/05 | 10h30 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 149</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|10h30|Quadra Grande Externa|2º ano Ensino Médio|Handebol|Masc|VERDE X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 198: 05/05 | 10h30 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 150</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|10h30|Quadra Pequena Externa|6º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 199: 05/05 | 10h30 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 151</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|10h30|Quadra Coberta|7º ano Ensino Fundamental II|Futsal|Fem|VERDE X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 200: 05/05 | 10h30 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 152</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|10h30|Quadra de Voleibol Externa|8º ano Ensino Fundamental II|Handebol|Fem|ROXO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 201: 05/05 | 11h10 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 153</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h10|Quadra Grande Externa|3º ano Ensino Médio|Handebol|Masc|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 202: 05/05 | 11h10 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 154</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h10|Quadra Pequena Externa|6º ano Ensino Médio|Futsal|Masc|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 203: 05/05 | 11h10 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 155</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h10|Quadra Coberta|7º ano Ensino Fundamental II|Futsal|Masc|ROXO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 204: 05/05 | 11h10 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 156</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h10|Quadra de Voleibol Externa|8º ano Ensino Fundamental II|Handebol|Masc|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 205: 05/05 | 11h50 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 157</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h50|Quadra Grande Externa|2º ano Ensino Médio|Handebol|Masc|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 206: 05/05 | 11h50 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 158</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h50|Quadra Pequena Externa|6º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 207: 05/05 | 11h50 | Monteiro Open | Futsal</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 159</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h50|Quadra Coberta|7º ano Ensino Fundamental II|Futsal|Fem|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 208: 05/05 | 11h50 | Monteiro Open | Handebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 160</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Tarde|Monteiro Open|11h50|Quadra de Voleibol Externa|8º ano Ensino Fundamental II|Handebol|Fem|ROXO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 280: 07/05 | 09h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 279</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Fem|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 281: 07/05 | 09h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 280</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Fem|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 283: 07/05 | 09h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 282</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Caixa de Areia|7º ano Ensino Fundamental II|Salto em Distância|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 287: 07/05 | 09h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 286</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Pista de Corrida|2º ano Ensino Médio|Corrida|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 288: 07/05 | 09h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 287</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Pista de Corrida|3º ano Ensino Médio|Corrida|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 290: 07/05 | 10h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 289</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Fem|VERDE X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 291: 07/05 | 10h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 290</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Fem|VERDE X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 293: 07/05 | 10h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 292</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Caixa de Areia|2º ano Ensino Médio|Salto em Distância|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 294: 07/05 | 10h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 293</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Caixa de Areia|3º ano Ensino Médio|Salto em Distância|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 298: 07/05 | 10h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 297</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Pista de Corrida|9º ano Ensino Fundamental II|Corrida|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 300: 07/05 | 11h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 299</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Fem|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 301: 07/05 | 11h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 300</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Fem|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 303: 07/05 | 11h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 302</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Caixa de Areia|9º ano Ensino Fundamental II|Salto em Distância|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 305: 07/05 | 11h00 | Estádio da PUCRS | Salto em Altura</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 304</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Colchão de Saltos Estádio|2º ano Ensino Médio|Salto em Altura|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 308: 07/05 | 11h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 307</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Pista de Corrida|7º ano Ensino Fundamental II|Corrida|Masc|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 310: 07/05 | 14h00/15h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 309</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Masc|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 311: 07/05 | 14h00/15h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 310</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Masc|VERMELHO X ROXO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 312: 07/05 | 14h00/15h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 311</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Masc|P- X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 313: 07/05 | 14h00/15h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 312</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Masc|P- X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 314: 07/05 | 14h00/15h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 313</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Masc|P- X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 316: 07/05 | 14h00/15h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 315</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|7º ano Ensino Fundamental II|Salto em Distância|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 317: 07/05 | 14h00/15h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 316</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|1º ano Ensino Médio|Salto em Distância|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 318: 07/05 | 14h00/15h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 317</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|2º ano Ensino Médio|Salto em Distância|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 319: 07/05 | 14h00/15h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 318</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|3º ano Ensino Médio|Salto em Distância|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 321: 07/05 | 14h00/15h00 | Estádio da PUCRS | Salto em Altura</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 320</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Colchão de Saltos Estádio|6º ano Ensino Fundamental II|Salto em Altura|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 323: 07/05 | 14h00/15h00 | Estádio da PUCRS | Salto em Altura</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 322</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Colchão de Saltos Indoor|7º ano Ensino Fundamental II|Salto em Altura|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 325: 07/05 | 14h00/15h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 324</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|3º ano Ensino Médio|Corrida|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 326: 07/05 | 14h00/15h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 325</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|8º ano Ensino Fundamental II|Corrida|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 327: 07/05 | 14h00/15h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 326</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|9º ano Ensino Fundamental II|Corrida|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 329: 07/05 | 16h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 328</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Masc|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 330: 07/05 | 16h00 | Estádio da PUCRS | Futebol</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 329</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Masc|VERDE X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 332: 07/05 | 16h00 | Estádio da PUCRS | Salto em Distância</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 331</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Caixa de Areia|9º ano Ensino Fundamental II|Salto em Distância|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 334: 07/05 | 16h00 | Estádio da PUCRS | Salto em Altura</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 333</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Colchão de Saltos Estádio|2º ano Ensino Médio|Salto em Altura|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 337: 07/05 | 16h00 | Estádio da PUCRS | Corrida</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 336</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Pista de Corrida|7º ano Ensino Fundamental II|Corrida|Fem|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 339: 07/05 | 9h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 338</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|9h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 341: 07/05 | 9h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 340</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|9h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 343: 07/05 | 10h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 342</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|10h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 345: 07/05 | 10h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 344</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|10h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 347: 07/05 | 11h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 346</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|11h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 349: 07/05 | 11h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 348</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|11h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 351: 07/05 | 14h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 350</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|14h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X VERDE</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 353: 07/05 | 14h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 352</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|14h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Masc|VERDE X VERMELHO</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 355: 07/05 | 15h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 354</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|15h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Masc|VERMELHO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 357: 07/05 | 15h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 356</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|15h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X P-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 359: 07/05 | 16h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 358</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|16h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Masc|VERMELHO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 361: 07/05 | 16h00 | Campos de Futebol 7 - PUCRS | Futebol 7</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 360</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|16h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X V-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 363: 04/05 | 16h30 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 362</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Tarde|Monteiro Open|16h30|Quadrinha de Vôlei|4º ano Ensino Fundamental I (Turma 42)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 364: 04/05 | 16h30 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 363</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Tarde|Monteiro Open|16h30|Quadrinha de Vôlei|4º ano Ensino Fundamental I (Turma 43)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 366: 04/05 | 16h30 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 365</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Tarde|Monteiro Open|16h30|Quadra Grande|5º ano Ensino Fundamental I (Turma 52)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 367: 04/05 | 16h30 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 366</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">04/05|Segunda|Tarde|Monteiro Open|16h30|Quadra Grande|5º ano Ensino Fundamental I (Turma 53)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 369: 05/05 | 10h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 368</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Colégio Monteiro Lobato|10h00|Área em frente ao teatro|1º ano Ensino Fundamental I (Turma 12)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 370: 05/05 | 10h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 369</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Colégio Monteiro Lobato|10h00|Área em frente ao teatro|1º ano Ensino Fundamental I (Turma 13)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 372: 05/05 | 11h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 371</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 22)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 373: 05/05 | 11h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 372</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 23)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 374: 05/05 | 11h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 373</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 24)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 376: 05/05 | 10h00 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 375</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Monteiro Open|10h00|Quadras de Areia|3º ano Ensino Fundamental I (Turma 32)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 377: 05/05 | 10h00 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 376</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">05/05|Terça|Manhã|Monteiro Open|10h00|Quadras de Areia|3º ano Ensino Fundamental I (Turma 33)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 379: 06/05 | 8h00 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 378</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Manhã|Monteiro Open|8h00|Quadra Sintética|5º ano Ensino Fundamental I (Turma 51)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 381: 06/05 | 13h50 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 380</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|4º ano Ensino Fundamental I (Turma 43)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 382: 06/05 | 13h50 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 381</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|5º ano Ensino Fundamental I (Turma 52)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 383: 06/05 | 13h50 | Monteiro Open | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 382</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|5º ano Ensino Fundamental I (Turma 53)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 385: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 384</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|6º ano Ensino Fundamental II (Turma 62)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 386: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 385</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|6º ano Ensino Fundamental II (Turma 63)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 387: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 386</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|7º ano Ensino Fundamental II (Turma 71)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 388: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 387</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|7º ano Ensino Fundamental II (Turma 72)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 389: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 388</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|7º ano Ensino Fundamental II (Turma 73)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 390: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 389</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|8º ano Ensino Fundamental II (Turma 81)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 391: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 390</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|8º ano Ensino Fundamental II (Turma 82)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 392: 06/05 | 14h00 | Colégio Monteiro Lobato | Desafio Acadêmico</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 391</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|8º ano Ensino Fundamental II (Turma 83)|Desafio Acadêmico|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 394: 07/05 | 8h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 393</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 21)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 395: 07/05 | 8h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 394</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|3º ano Ensino Fundamental I (Turma 31)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 397: 07/05 | 14h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 396</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 13)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 398: 07/05 | 14h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 397</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 22)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 399: 07/05 | 14h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 398</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 23)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 400: 07/05 | 14h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 399</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 24)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 402: 07/05 | 14h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 401</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|3º ano Ensino Fundamental I (Turma 33)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 404: 07/05 | 10h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 403</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 21)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 405: 07/05 | 10h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 404</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h00|Quadra Coberta|3º ano Ensino Fundamental I (Turma 31)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 407: 07/05 | 16h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 406</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 13)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 409: 07/05 | 16h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 408</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Grande|2º ano Ensino Fundamental I (Turma 23)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 410: 07/05 | 16h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 409</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Grande|2º ano Ensino Fundamental I (Turma 24)|Gincana|Misto|-</pre>
+</div>
+<div class="error p-4 rounded-xl mb-3">
+  <div class="font-black text-red-700 mb-1">Linha 412: 07/05 | 16h00 | Colégio Monteiro Lobato | Gincana</div>
+  <ul class="list-disc pl-5 text-sm text-red-600">
+    <li>DUPLICATA com linha 411</li>
+  </ul>
+  <pre class="mt-2 text-xs text-slate-500 bg-slate-50 p-2 rounded">07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra de Voleibol|3º ano Ensino Fundamental I (Turma 33)|Gincana|Misto|-</pre>
+</div>
+</div>
+
+<!-- TAB: Orphans -->
+<div id="tab-orphans" class="tab-content">
+  <h2 class="text-lg font-black text-slate-800 mb-4">🔍 Linhas extraídas dos PDFs que não matcheiam com nenhum jogo do HTML</h2>
+  <p class="text-sm text-slate-500 mb-4">Estas linhas podem indicar jogos ausentes no HTML ou são cabeçalhos/rodapés dos PDFs.</p>
+  <div class="ok p-4 rounded-xl"><strong>✅ Todas as linhas com conteúdo de jogo têm correspondência no HTML!</strong></div>
+</div>
+
+<!-- TAB: Cobertura -->
+<div id="tab-coverage" class="tab-content">
+  <h2 class="text-lg font-black text-slate-800 mb-4">✅ Cobertura por data e arquivo PDF</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="ok p-4 rounded-xl">
+  <div class="font-black text-slate-800 mb-1">📅 04/05</div>
+  <div class="text-sm">Jogos no HTML: <strong>142</strong></div>
+  <div class="text-sm">Linhas no PDF com esta data: <strong>2</strong></div>
+  <details class="mt-2">
+    <summary class="text-xs cursor-pointer text-slate-500 hover:text-slate-700">Ver linhas PDF (2)</summary>
+    <div class="mt-2 space-y-1 max-h-48 overflow-y-auto">
+      <pre class="text-xs bg-white p-1 rounded border">GINCANA EF I - SEGUNDA-FEIRA 04/05 - TARDE</pre><pre class="text-xs bg-white p-1 rounded border">DATA 04/05 Tarde 04/05 Tarde</pre>
+      
+    </div>
+  </details>
+</div>
+<div class="warn p-4 rounded-xl">
+  <div class="font-black text-slate-800 mb-1">📅 05/05</div>
+  <div class="text-sm">Jogos no HTML: <strong>82</strong></div>
+  <div class="text-sm">Linhas no PDF com esta data: <strong>0</strong></div>
+  <details class="mt-2">
+    <summary class="text-xs cursor-pointer text-slate-500 hover:text-slate-700">Ver linhas PDF (0)</summary>
+    <div class="mt-2 space-y-1 max-h-48 overflow-y-auto">
+      
+      
+    </div>
+  </details>
+</div>
+<div class="ok p-4 rounded-xl">
+  <div class="font-black text-slate-800 mb-1">📅 06/05</div>
+  <div class="text-sm">Jogos no HTML: <strong>61</strong></div>
+  <div class="text-sm">Linhas no PDF com esta data: <strong>3</strong></div>
+  <details class="mt-2">
+    <summary class="text-xs cursor-pointer text-slate-500 hover:text-slate-700">Ver linhas PDF (3)</summary>
+    <div class="mt-2 space-y-1 max-h-48 overflow-y-auto">
+      <pre class="text-xs bg-white p-1 rounded border">DATA 06/05 Manhã 06/05 Manhã 06/05 Manhã</pre><pre class="text-xs bg-white p-1 rounded border">GINCANA EF I - QUARTA-FEIRA 06/05 - MANHÃ E TARDE</pre><pre class="text-xs bg-white p-1 rounded border">DATA 06/05 Manhã 06/05 Tarde</pre>
+      
+    </div>
+  </details>
+</div>
+<div class="ok p-4 rounded-xl">
+  <div class="font-black text-slate-800 mb-1">📅 07/05</div>
+  <div class="text-sm">Jogos no HTML: <strong>127</strong></div>
+  <div class="text-sm">Linhas no PDF com esta data: <strong>2</strong></div>
+  <details class="mt-2">
+    <summary class="text-xs cursor-pointer text-slate-500 hover:text-slate-700">Ver linhas PDF (2)</summary>
+    <div class="mt-2 space-y-1 max-h-48 overflow-y-auto">
+      <pre class="text-xs bg-white p-1 rounded border">GINCANA EF I - QUINTA -FEIRA 07/05 1ºMOMENTO</pre><pre class="text-xs bg-white p-1 rounded border">GINCANA EF I - QUINTA -FEIRA 07/05 2ºMOMENTO</pre>
+      
+    </div>
+  </details>
+</div></div>
+</div>
+
+<!-- TAB: PDF bruto -->
+<div id="tab-rawpdf" class="tab-content">
+  <h2 class="text-lg font-black text-slate-800 mb-4">📄 Texto bruto extraído por arquivo PDF</h2>
+  <h3 class="font-black text-slate-700 mt-4 mb-2">📄 2026 GINCANA EFI-1º a 3º (1).pdf (86 linhas)</h3><div class="bg-white rounded-xl border p-4 font-mono text-xs overflow-auto max-h-96"><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.1</span>JOGOS DO MONTEIRO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.2</span>2026</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.3</span>GINCANA F1</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.4</span>OBJETIVO: cada equipe deverá engajar-se nas atividades propostas a fim de atingir o objetivo de cada tarefa. Os</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.5</span>desafios deverão ser realizados de forma integrada, promovendo o trabalho em equipe.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.6</span>GINCANA EF I - SEGUNDA-FEIRA <span class="text-blue-600 font-bold">04/05</span> - TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.7</span>DATA <span class="text-blue-600 font-bold">04/05</span> Tarde <span class="text-blue-600 font-bold">04/05</span> Tarde</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.8</span>LOCAL QUADRINHA VÔLEI QUADRA GRANDE OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.9</span>HORÁRIO (após recreio) 16H30 ÀS 17h40min (após recreio) 16H30 ÀS 17h40min</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.10</span>TURMAS 41, 42 e 43 Roxo - 22 Vermelho - 20 Verde - 22 51, 52 e 53 Roxo - 17 Vermelho - 18 Verde - 19</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.11</span>ATIVIDADE Jogo do Resgate e Queimada Jogo do Resgate e Queimada</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.12</span>PROFESSOR Marcella Gilmar</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.13</span>MESÁRIOS Amadeu Lucas</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.14</span>GINCANA EF I - TERÇA-FEIRA MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.15</span>DATA <span class="text-blue-600 font-bold">06/05</span> Manhã <span class="text-blue-600 font-bold">06/05</span> Manhã <span class="text-blue-600 font-bold">06/05</span> Manhã</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.16</span>LOCAL ÁREA EM FRENTE AO TEATRO ÁREA EM FRENTE AO TEATRO QUADRAS DE AREIA OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.17</span>HORÁRIO DAS <span class="text-emerald-600 font-bold">10h</span> às <span class="text-emerald-600 font-bold">11h</span> DAS 11H ÀS 11H50 DAS <span class="text-emerald-600 font-bold">10h</span> às <span class="text-emerald-600 font-bold">11h</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.18</span>TURMAS 11,12 e 13 21, 22, 23 e 24 31,32 e 33</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.19</span>ATIVIDADE ● Desafio do camisetão ● Desafio do camisetão ● Voleibolzão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.20</span>● Corrida da colher ● Corrida da colher ● Passa- passa bambolê</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.21</span>● Desafio do Tênis ● Desafio do Tênis ● Caça ao tênis.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.22</span>● Pula saco</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.23</span>PROFESSOR Larissa Patricia e Especializados Gabriela, Patricia e Sthefanie e Jéssica, Ivânia, Larissa e especializados</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.24</span>especializados</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.25</span>MESÁRIOS Rafaela(11) Joseane Sophia</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.1</span>GINCANA EF I - QUARTA-FEIRA <span class="text-blue-600 font-bold">06/05</span> - MANHÃ E TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.2</span>DATA <span class="text-blue-600 font-bold">06/05</span> Manhã <span class="text-blue-600 font-bold">06/05</span> Tarde</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.3</span>LOCAL QUADRA SINTÉTICA OPEN QUADRA GRANDE OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.4</span>HORÁRIO DAS 8H ÀS 11H DAS <span class="text-emerald-600 font-bold">13h50</span> ÀS 17H</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.5</span>TURMAS 41 e 51 42,43, 52 E 53</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.6</span>ATIVIDADE 1. Corrida com as conchas de feijão 1. Corrida com as conchas de feijão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.7</span>2. Desafio do camisetão 2. Desafio do camisetão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.8</span>3. Corrida do saco. 3. Corrida do saco.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.9</span>4. Bola no gol 4. Bola no gol</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.10</span>5. Passa- passa bambolê 5. Passa- passa bambolê</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.11</span>6. Corrida dentro da caixa de papelão 6. Corrida dentro da caixa de papelão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.12</span>7. A dança da vassoura 7. A dança da vassoura</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.13</span>8. Brincadeira da estátua. 8. Brincadeira da estátua.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.14</span>9. Dança - coreografia (sortear a música). 9. Dança - coreografia (sortear a música).</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.15</span>PROFESSOR Roberta, Tatiana e especializados nos horários de aula. Paula, Dina, Tatiana, Nádia e especializados nos horários de aula.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.16</span>MESÁRIOS Larissa,Rafaela(11)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.17</span>GINCANA EF I - QUINTA -FEIRA <span class="text-blue-600 font-bold">07/05</span> 1ºMOMENTO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.18</span>DATA 5ª FEIRA Manhã 5ª FEIRA Tarde 5ª FEIRA Tarde</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.19</span>LOCAL QUADRA COBERTA QUADRA COBERTA QUADRA GRANDE (chuva open)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.20</span>HORÁRIO Das <span class="text-emerald-600 font-bold">8h</span> às <span class="text-emerald-600 font-bold">9h40</span> Das <span class="text-emerald-600 font-bold">14h</span> às 15h40min Das <span class="text-emerald-600 font-bold">14h</span> às 15h40min</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.21</span>TURMAS 11, 21 e 31 12, 13, 22, 23 e 24 32 e 33</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.22</span>Roxo - 18 Vermelho - 16 Roxo - 29 Vermelho - 23 Verde - 32 Roxo - 15 Vermelho - 15</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.23</span>Verde - 18 Verde - 17</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.24</span>ATIVIDADE ● Totozinho ● Totozinho ● Jogo do Resgate</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.25</span>● Caçador de times ● Caçador de times ● Caçador</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.26</span>● Pular corda (se der ● Pular corda) ● Pular corda</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.27</span>tempo)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.28</span>PROFESSOR Marcella Gilmar</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.29</span>MESÁRIOS</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.30</span>GINCANA EF I - QUINTA -FEIRA <span class="text-blue-600 font-bold">07/05</span> 2ºMOMENTO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.31</span>DATA 5ª FEIRA Manhã 5ª FEIRA Tarde 5ª FEIRA Tarde 5ª FEIRA Tarde</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.32</span>LOCAL QUADRA COBERTA QUADRA QUADRA GRANDE QUADRA VOLEIBOL</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.33</span>COBERTA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.34</span>HORÁRIO Das <span class="text-emerald-600 font-bold">10h</span> às 11h50min Das <span class="text-emerald-600 font-bold">16h</span> às <span class="text-emerald-600 font-bold">17h50</span> Das <span class="text-emerald-600 font-bold">16h</span> às <span class="text-emerald-600 font-bold">17h50</span> Das <span class="text-emerald-600 font-bold">16h</span> às <span class="text-emerald-600 font-bold">17h50</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.35</span>PÚBLICO <span class="text-blue-600 font-bold">11/21</span>/31 12,13 22,23,E 24 32, 33</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.36</span>● Caça bandeiras Caça bandeiras Caça bandeiras. Ponte dos Colchonetes.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.37</span>● Desafio das bolinhas Desafio das Corrida com os cones. Caça bolinhas</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.38</span>● Corrida com bolinhas Coelho sai da toca. Passando o corpo pelo bambolê.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.39</span>bambolês. Corrida com Passando os bambolês. Criar um cartaz sobre o tema da sua equipe</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.40</span>● Passa bola bambolês. Jogo da velha dentro de um tempo estipulado.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.41</span>Passa bola Desafio das bolinhas Cópia de símbolos</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.42</span>Corrida dos bambolês. Papel amassado em duplas</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.43</span>Passa a bola Passa cabide</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.44</span>Corrida com as conchas de feijão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.45</span>Desafio do camisetão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.46</span>Bola no gol</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.1</span>Corrida dentro da caixa de papelão</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.2</span>A dança da vassoura</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.3</span>PROFESSOR Larissa Gabriela Jéssi Larissa, Patrícia Gabriela, Patricia e Jéssica, Ivânia, Larissa e especializados</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.4</span>ca Sthefanie</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.5</span>MESÁRIOS</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.6</span>As tarefas de gincana a serem desenvolvidas ocorrerão em dois espaços, sendo conduzidas pelas professoras</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.7</span>regentes no pátio da escola e pelos professores de educação física do Open. Atente-se ao horário e ao local</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.8</span>indicados na tabela acima.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.9</span>PONTUAÇÃO E CRITÉRIOS DE AVALIAÇÃO:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.10</span>- As equipes que, por si ou por seus integrantes, agirem de forma inadequada, desrespeitosa ou antiética, em</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.11</span>relação às demais equipes, aos seus colegas, ou ainda aos professores e funcionários terão sua pontuação</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.12</span>comprometida conforme previsto no Regulamento dos Jogos do Monteiro 2025.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.13</span>- As equipes poderão ficar em 1º, 2º ou 3º lugar em cada tarefa. A pontuação final será resultante do somatório do</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.14</span>desempenho em cada etapa da gincana, e será feita seguindo o padrão indicado no Regulamento dos Jogos do</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.15</span>Monteiro 2026.</div></div><h3 class="font-black text-slate-700 mt-4 mb-2">📄 2026_EFII DESAFIO ACADÊMICO .pdf (42 linhas)</h3><div class="bg-white rounded-xl border p-4 font-mono text-xs overflow-auto max-h-96"><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.1</span>TAREFA DESAFIO ACADÊMICO EFII</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.2</span>Data de realização da tarefa: 06 de maio de 2026, quarta-feira, das <span class="text-emerald-600 font-bold">14h</span> às <span class="text-emerald-600 font-bold">18h</span>.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.3</span>Local: Salas de aula do 4º pavimento do Colégio, conforme tabela abaixo:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.4</span>BANCA 101</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.5</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> 91</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.6</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> 92</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.7</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> 102</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.8</span>Tarefa: Os(as) estudantes de 6º ao 8º anos do EFII de cada equipe deverão solucionar o maior número de desafios do</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.9</span>conhecimento, dentro de um universo de 23 (mais o “desafio zero”), que envolvem as seguintes áreas: Raciocínio Lógico,</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.10</span>Linguagens, Ciências Humanas &amp; Atualidades e Ciências &amp; Tecnologias.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.11</span>Pré-requisitos da tarefa:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.12</span>a) Toda a comunicação com a Organização referente a esta tarefa ocorrerá, exclusivamente, com os(as) professores(as) que</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.13</span>estarão na sala 101 (4º pavimento). Em casos de dúvidas ou impasses, caberá somente ao(à) coordenador(a) acadêmico(a) e</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.14</span>professores da equipe a interlocução com a Organização.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.15</span>b) O(A) coordenador(a) acadêmico deverá se apresentar para a organização dos Jogos, na sala 101 (4º pavimento), às 13h50min</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.16</span>para indicar 04 (quatro) alunos(as) representantes, que ficarão responsáveis pela retirada dos desafios e pela entrega das</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.17</span>respostas e/ou declarações de desistência.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.18</span>c) O primeiro desafio somente será retirado após a resolução do DESAFIO ZERO, que será divulgado às 14 horas junto aos</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.19</span>representantes da Organização na sala 101 (4º pavimento). A equipe que resolver corretamente o DESAFIO ZERO terá direito a</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.20</span>retirar o primeiro desafio. Cada desafio conterá as orientações para a questão e uma folha de Resposta.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.21</span>ci) Entende-se como caractere apenas LETRAS, NÚMEROS e SÍMBOLOS.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.22</span>cii) Não há limite para tentativas de resposta, tampouco penalizações para erros. Caso a equipe apresente uma resposta</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.23</span>errada para a Organização dos Jogos, será orientada a tentar novamente, porém não receberá uma nova folha de Resposta –</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.24</span>todas as atividades deverão ser redigidas a caneta.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.25</span>ciii) Caso a equipe opte por desistir, deverá preencher, junto à Organização dos Jogos, uma folha de Desistência, na qual</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.26</span>registrará a cor da sua equipe e que será assinada por, pelo menos, um dos quatro representantes da tarefa.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.27</span>d) Os desafios serão liberados um a um. Para passar para um próximo desafio, as equipes deverão acertar a resposta do</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.28</span>desafio em que estiverem, ou desistir dele.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.29</span>e) As equipes não poderão tentar, em nenhuma hipótese, responder novamente aos desafios dos quais desistiram.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.30</span>f) Somente os estudantes de 6º a 8º anos, coordenadores do EFII, professores do EFII e familiares1 poderão auxiliar na</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.31</span>realização dos desafios, sendo permitida a pesquisa de qualquer natureza. As folhas de respostas deverão ser preenchidas</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.32</span>apenas na sala da equipe.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.33</span>Penalizações da tarefa:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.34</span>a) As equipes que, por si ou por seus integrantes, agirem de forma inadequada, desrespeitosa ou antiética em relação às</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.35</span>demais equipes, aos seus colegas, ou ainda à Organização dos Jogos do Monteiro serão penalizadas.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.36</span>b) As equipes que tentarem acessar aos desafios e/ou às suas respostas de maneira ilegítima serão penalizadas.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.37</span>Critérios de avaliação da tarefa:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.38</span>a) A classificação das equipes se dará pelo número de questões resolvidas durante a tarefa. A equipe que tiver o maior</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.39</span>número de questões resolvidas é a vencedora.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.40</span>b) Havendo empate, será considerado critério de desempate a hora de entrega da última resposta correta. A equipe que</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.41</span>possuir o menor tempo vence.</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.42</span>1 familiares só podem auxiliar remotamente.</div></div><h3 class="font-black text-slate-700 mt-4 mb-2">📄 TABELA OFICIAL DE JOGOS 2026 II.pdf (399 linhas)</h3><div class="bg-white rounded-xl border p-4 font-mono text-xs overflow-auto max-h-96"><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.1</span>DATA: SEGUNDA-FEIRA - 04 DE MAIO DE 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.3</span>HORÁRIOS: QUADRA GRANDE EXTERNA QUADRA PEQUENA EXTERNA QUADRA COBERTA QUADRA DE VOLEIBOL EXTERNA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.4</span>Arbitragem: _____________ Arbitragem:______________ Arbitragem:______________ Arbitragem:______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.5</span>Coordenação: Bibiana Coordenação: Bruno Coordenação: Gilmar Coordenação: Zaliana</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.6</span>Mesário: Giovana (AEE) Mesária: Thayna Mesário: Rafaela (11) Mesário: Marília (biblio)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.7</span><span class="text-emerald-600 font-bold">8h</span> 3° ano EM - Basquete - MASCULINO 6° ano - Basquetebol - MASC 3º ano EM - Voleibol - FEM 2º ano EM - Voleibol - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.9</span><span class="text-emerald-600 font-bold">8h40</span> 1° ano EM - - FUTSAL FEMININO 6° ano Basquetebol - Feminino 7° ano - Voleibol - FEMININO 7º ano - Voleibol - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.11</span><span class="text-emerald-600 font-bold">9h20</span> 3° ano EM - Basquete - MASCULINO 6° ano - Basquetebol - MASC 3º ano EM - Voleibol - FEM 2º ano EM - Voleibol - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.12</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-__________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_____ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.13</span><span class="text-emerald-600 font-bold">10h10</span> RECREIO RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.14</span><span class="text-emerald-600 font-bold">10h30</span> 1° ano - FUTSAL - FEMININO 6° ano - Basquetebol - FEMININO 7° ano - Voleibol - FEMININO 7º ano - Voleibol - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.15</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-__________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-______ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.16</span><span class="text-emerald-600 font-bold">11h10</span> 3° ano EM - Basquetebol - MASC 6° ano EM - Basquetebol - MASC 3° ano EM - Voleibol - FEM 2º ano - Voleibol - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.17</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V_______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-__________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-__________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.18</span><span class="text-emerald-600 font-bold">11h50</span> 1° ano -FUTSAL - FEMININO 6° ano - Basquetebol - FEMININO 7° ano - Voleibol - FEMININO 7º ano - Voleibol - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">1.19</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_______ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-______ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.1</span>DATA: SEGUNDA-FEIRA - 04 DE MAIO DE 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.3</span>HORÁRIOS: GRAMA GRANDE QUADRA 1: QUADRA 2:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.4</span>Arbitragem:_____________ Arbitragem:____________ Arbitragem:____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.5</span>Coordenação: Amadeu Coordenação: Fabio Coordenação: Daniel</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.6</span>Mesário: Gabriel (xerox) Mesário: Vinicius Mesário: Rafaela (21)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.7</span><span class="text-emerald-600 font-bold">8h</span> 9º ano - Futsal - MASCULINO 1° ano EM - Basquete - MASCULINO. 2° ano EM -Voleibol - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.9</span><span class="text-emerald-600 font-bold">8h40</span> 9º ano - Futsal - FEMININO 8° ano - Basquetebol - MASCULINO 8° ano - Basquetebol - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.10</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.11</span><span class="text-emerald-600 font-bold">9h20</span> 9º ano - Futsal - MASCULINO 1° ano EM - Basquetebol - MASC 2° ano EM -Voleibol - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.12</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.13</span><span class="text-emerald-600 font-bold">10h10</span> RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.14</span><span class="text-emerald-600 font-bold">10h30</span> 9º ano - Futsal - FEMININO 8° ano - Basquetebol MASCULINO 8° ano - Basquetebol - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.15</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-___________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-___________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.16</span><span class="text-emerald-600 font-bold">11h10</span> 9º ano - Futsal - MASCULINO 1° ano EM - Basquetebol - MASC 2° ano EM -Voleibol - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.17</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.18</span><span class="text-emerald-600 font-bold">11h50</span> 9º ano - Futsal - FEMININO 8° ano - Basquetebol MASCULINO 8° ano - Basquetebol - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">2.19</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.1</span>DATA: SEGUNDA-FEIRA - 4 DE MAIO 2026. TURNO: TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.3</span>HORÁRIOS: QUADRA GRANDE QUADRA PEQUENA QUADRA COBERTA QUADRA VOLEIBOL</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.4</span>Arbitragem: Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.5</span>Coordenação: Daniel coordenação: Gilmar (até <span class="text-emerald-600 font-bold">15h50</span>) Coordenação: Fabio Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.6</span>Mesário: Bibiana (integral) Mesário: Thais (integral) Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.7</span><span class="text-emerald-600 font-bold">14h30</span> 3° ano EF I - FUTSAL - MASCULINO 3° ano EF I - FUTSAL - FEMININO 1º ano EF I-QUEIMADA - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.8</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> X <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.9</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> X P-__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> X V-__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.11</span><span class="text-emerald-600 font-bold">15h10</span> 3° ano EF I - FUTSAL - MASCULINO 3° ano EF I - FUTSAL - FEMININO 1º ano EF I-QUEIMADA - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> X <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.13</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-__________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> X P-________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.14</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> X V-________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.15</span><span class="text-emerald-600 font-bold">15h50</span> RECREIO RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.16</span><span class="text-emerald-600 font-bold">16h20</span> 3° ano EF I - FUTSAL - MASCULINO 3° ano EF I - FUTSAL - FEMININO 1º ano EF I-BOLA POR CIMA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.17</span>DA REDE - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.18</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-__________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> X <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.19</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> X P-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.20</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> X V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.21</span><span class="text-emerald-600 font-bold">17h</span> 3° ano EF I - DODGEBALL - MASC 3° ano EF I - DODGEBALL - FEM 1º ano EF I-BOLA POR CIMA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.22</span>DA REDE - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.23</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> X <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.24</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> X P-___________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.25</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> X V-___________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.26</span><span class="text-emerald-600 font-bold">17h10</span> 3° ano EF I - DODGEBALL - MASC 3° ano EF I - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.27</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.28</span><span class="text-emerald-600 font-bold">17h20</span> 3° ano EF I - DODGEBALL - MASC 3° ano EF I - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">3.29</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.1</span>DATA: SEGUNDA-FEIRA - 4 DE MAIO 2026. TURNO: TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.3</span>HORÁRIOS: QUADRA 1: QUADRA 2: QUADRA GRANDE:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.4</span>Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.5</span>Coordenação: Coordenação: Fabricio Coordenação: Bruno</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.6</span>Mesário: Mesário: Diogo Mesário: Luah</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.7</span><span class="text-emerald-600 font-bold">14h30</span> 2° ano EF I -QUEIMADA DOS 2° ano EF I - FUTSAL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.8</span>NÙMEROS - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.9</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.11</span><span class="text-emerald-600 font-bold">15h10</span> 2° ano EF I -QUEIMADA DOS 2° ano EF I - FUTSAL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.12</span>NÙMEROS - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.13</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.14</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-___________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.15</span><span class="text-emerald-600 font-bold">15h50</span> RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.16</span><span class="text-emerald-600 font-bold">16h20</span> 2° ano EF I -QUEIMADA DOS 2° ano EF I - FUTSAL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.17</span>NÙMEROS - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.18</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.19</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-___________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.20</span><span class="text-emerald-600 font-bold">17h</span> 2° ano EF I -QUEIMADA DOS 2° ano EF I - FUTSAL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.21</span>NÙMEROS -MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.22</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.23</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.24</span><span class="text-emerald-600 font-bold">17h10</span> 2° ano EF I -QUEIMADA DOS 2° ano EF I - FUTSAL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.25</span>NÙMEROS - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.26</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.27</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.28</span><span class="text-emerald-600 font-bold">17h20</span> 2° ano EF I -QUEIMADA DOS 2° ano EF I - FUTSAL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.29</span>NÙMEROS - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.30</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">4.31</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.1</span>DATA: SEGUNDA-FEIRA - 4 DE MAIO DE 2026. TURNO: NOITE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.3</span>HORÁRIOS: QUADRA GRANDE EXTERNA QUADRA PEQUENA QUADRA COBERTA QUADRA DE VOLEIBOL EXTERNA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.4</span>Arbitragem: _____________ Arbitragem: Arbitragem: Arbitragem:______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.5</span>Coordenação: Simone Coordenação: Bruno Coordenação: Gilmar Coordenador: Joel</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.6</span>Mesário: Fabricio Mesário: Fabio Mesário: Diogo Mesário: Amadeu</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.7</span><span class="text-emerald-600 font-bold">17h30</span> 7° ano EF II - BASQUETEBOL - FEM 7° ano EF II - BASQUETE FEMININO 8° ano EF II - VOLEIBOL MASC 6° ano EF II - VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.9</span><span class="text-emerald-600 font-bold">18h</span> 7° ano EF II - BASQUETEBOL - FEM 7° ano EF II - BASQUETE FEMININO 8° ano EF II - VOLEIBOL MASC. 6º ano EF II- VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.10</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_________________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P´_____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.11</span><span class="text-emerald-600 font-bold">18h30</span> 7° ano EF II - BASQUETEBOL - FEM 7° ano EF II - BASQUETE FEMININO 8° ano EF II - VOLEIBOL MASC 6° ano EF II - VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.12</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-________________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.13</span><span class="text-emerald-600 font-bold">19h</span> 3º ano EM - HANDEBOL FEM 2° ano EM - FUTSAL FEM 1° ano EM - VOLEI FEM 9º ano EF II- VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.14</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.15</span><span class="text-emerald-600 font-bold">19h30</span> 3° ano EM - HANDEBOL - FEM 2° ano EM - FUTSAL FEM 1° ano EM - VOLEI FEM 9° ano EF II - VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.16</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.17</span><span class="text-emerald-600 font-bold">20h</span> 3° ano EM - HANDEBOL - FEM 2° ano - FUTSAL FEM 1° ano EM - VOLEI FEM 9º ano EF II- VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">5.18</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V ________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.1</span>DATA: SEGUNDA-FEIRA - 4 DE MAIO DE 2026. TURNO: NOITE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.3</span>HORÁRIOS: QUA|DRA GRANDE QUADRA 1: QUADRA 2:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.4</span>Arbitragem:_____________ Arbitragem:____________ Arbitragem:____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.5</span>Coordenação: Zaliana Coordenação: Daniel Coordenação: Bibiana</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.6</span>Mesário: Leca Mesário: Viviane Mesário: Joseane</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.7</span><span class="text-emerald-600 font-bold">17h30</span> 1° ano EM - FUTSAL MASC 6º ano EF II - VOLEIBOL - MASC 8º ano EF II - VOLEIBOL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.9</span><span class="text-emerald-600 font-bold">18h</span> 1° ano EM - FUTSAL MASC 6º ano EF II - VOLEIBOL - MASC 8º ano EF II- VOLEIBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.10</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.11</span><span class="text-emerald-600 font-bold">18h30</span> 1° ano EM - FUTSAL MASC 6º ano EF II - VOLEIBOL - MASC 8º ano - VOLEIBOL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.12</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.13</span><span class="text-emerald-600 font-bold">19h</span> 2° ano EM - FUTSAL MASCULINO 3º ano EM - VOLEIBOL - MASCULINO 9º ano- VOLEIBOL MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.14</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.15</span><span class="text-emerald-600 font-bold">19h30</span> 2° ano EM - FUTSAL MASCULINO 3º ano EM - VOLEIBOL - MASCULINO 9º ano - VOLEIBOL - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.16</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P- _____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.17</span><span class="text-emerald-600 font-bold">20h</span> 2° ano EM - FUTSAL MASCULINO 3º ano EM - VOLEIBOL - MASCULINO 9º ano - VOLEIBOL MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">6.18</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-.__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.1</span>DATA: TERÇA-FEIRA - 5 DE MAIO DE 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.3</span>HORÁRIOS: QUADRA GRANDE QUADRA 1: QUADRA 2:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.4</span>Arbitragem:_____________ Arbitragem:____________ Arbitragem:____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.5</span>Coordenação: Amadeu Coordenação: Daniel Coordenação: Bibiana</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.6</span>Mesário: Viviane Mesário: Joel Mesário: Gabriel (xerox)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.7</span><span class="text-emerald-600 font-bold">8h</span> 7° ano - Handebol - FEMININO 1° ano EM - BASQUETEBOL - FEM 6° ano - DODGEBALL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.9</span><span class="text-emerald-600 font-bold">8h40</span> 7° ano - Handebol - MASCULINO 9° ano -BASQUETEBOL MASCULINO 9° ano -BASQUETEBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.11</span><span class="text-emerald-600 font-bold">9h20</span> 7° ano - Handebol - FEMININO 1° ano EM - BASQUETEBOL - FEM 6° ano - DODGEBALL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.12</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-___________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P___________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.13</span><span class="text-emerald-600 font-bold">10h10</span> RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.14</span><span class="text-emerald-600 font-bold">10h30</span> 7° ano - Handebol - MASCULINO 9° ano -BASQUETEBOL MASCULINO 9° ano -BASQUETEBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.15</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-___________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P- ________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.16</span><span class="text-emerald-600 font-bold">11h10</span> 7° ano - Handebol - FEMININO 1° ano EM - BASQUETEBOL - FEM 6° ano - DODGEBALL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.17</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-___________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V___________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.18</span><span class="text-emerald-600 font-bold">11h50</span> 7° ano - Handebol - MASCULINO 9° ano -BASQUETEBOL MASCULINO 9° ano -BASQUETEBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">7.19</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-___________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.1</span>DATA: TERÇA-FEIRA - 5 DE MAIO DE 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.3</span>HORÁRIOS: QUADRA GRANDE EXTERNA QUADRA PEQUENA EXTERNA QUADRA COBERTA QUADRA DE VOLEIBOL EXTERNA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.4</span>Arbitragem: _____________ Arbitragem:______________ Arbitragem:______________ Arbitragem:______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.5</span>Coordenação: Coordenação: Bruno Coordenação: Coordenação: Gilmar</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.6</span>Mesário: Thayna Mesária: Simone Mesário: Giovana (AEE) Mesário: Fabio</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.7</span><span class="text-emerald-600 font-bold">8h</span> 3° ano EM - FUTSAL MASCULINO 3º ano EM - Basquete -FEM 8° ano - FUTSAL MASC 1° ano EM - VOLEIBOL MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.8</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.9</span><span class="text-emerald-600 font-bold">8h40</span> 2ª ano EM - BASQUETE MASC 2º ano EM - Basquete -FEM 8° ano - FUTSAL FEM 6° ano - DODGEBALL MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.11</span><span class="text-emerald-600 font-bold">9h20</span> 3° ano EM - FUTSAL MASCULINO 3º ano EM - Basquete - FEM 8° ano - FUTSAL MASC 1° ano EM - VOLEIBOL MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-____________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-__________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.13</span><span class="text-emerald-600 font-bold">10h10</span> RECREIO RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.14</span><span class="text-emerald-600 font-bold">10h30</span> 2ª ano EM - BASQUETE MASC 2º ano EM - Basquete - FEM 8° ano - FUTSAL FEM 6° ano - DODGEBALL MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.15</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-___________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_______ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P.____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.16</span><span class="text-emerald-600 font-bold">11h10</span> 3° ano EM - FUTSAL MASCULINO 3º ano EM - Basquete - FEM 8° ano - FUTSAL MASC 1° ano EM - VOLEIBOL MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.17</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-____________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-___________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.18</span><span class="text-emerald-600 font-bold">11h50</span> 2ª ano EM - BASQUETE MASC 2º ano EM - Basquete - FEM 8° ano - FUTSAL FEM 6° ano - DODGEBALL MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">8.19</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-___________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_______ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V.____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.1</span>DATA: TERÇA-FEIRA - 5 DE MAIO DE 2026. TURNO: TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.3</span>HORÁRIOS: QUADRA GRANDE QUADRA PEQUENA QUADRA COBERTA QUADRA VOLEIBOL</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.4</span>Arbitragem: Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.5</span>Coordenação: Daniel Coordenação: Coordenação: Daniel Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.6</span>Mesário: Mesário: Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.7</span><span class="text-emerald-600 font-bold">14h</span> 5º ano - FUTSAL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.9</span><span class="text-emerald-600 font-bold">14h40</span> 5° ano - FUTSAL - MASCULINO _</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.10</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-__________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.11</span><span class="text-emerald-600 font-bold">15h20</span> 5° ano - FUTSAL _ MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.12</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.13</span><span class="text-emerald-600 font-bold">16h</span> RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.14</span><span class="text-emerald-600 font-bold">16h20</span> 5º ano - FUTSAL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.15</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.16</span><span class="text-emerald-600 font-bold">17h</span> 5° ano - FUTSAL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.17</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.18</span><span class="text-emerald-600 font-bold">17h30</span> 5° ano - FUTSAL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">9.19</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.1</span>DATA: TERÇA-FEIRA - 5 DE MAIO DE 2026. TURNO: TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.3</span>HORÁRIOS: QUADRA GRANDE QUADRA 1 QUADRA 2</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.4</span>Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.5</span>Coordenação: Bruno Coordenação: Gilmar Coordenação: Amadeu</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.6</span>Mesário: Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.7</span><span class="text-emerald-600 font-bold">14h</span> 4º ano - FUTSAL -MASCULINO 5º ano - DODGEBALL - FEMININO 4º ano - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.8</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.9</span><span class="text-emerald-600 font-bold">14h40</span> 4° ano - FUTSAL - MASCULINO 5º ano - DODGEBALL - FEMININO 4º ano - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_________________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.11</span><span class="text-emerald-600 font-bold">15h20</span> 4° ano - FUTSAL _ MASCULINO 5º ano - DODGEBALL - FEMININO 4º ano - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-__________________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_______</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.13</span><span class="text-emerald-600 font-bold">16h</span> RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.14</span><span class="text-emerald-600 font-bold">16h20</span> 4º ano - FUTSAL - FEMININO 5º ano - DODGEBALL - MASCULINO 4º ano - DODGEBALL - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.15</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.16</span><span class="text-emerald-600 font-bold">17h</span> 4º ano - FUTSAL - FEMININO 5º ano - DODGEBALL - MASCULINO 4º ano - DODGEBALL - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.17</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-__________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_______</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.18</span><span class="text-emerald-600 font-bold">17h30</span> 4º ano - FUTSAL - FEMININO 5º ano - DODGEBALL - MASCULINO 4º ano - DODGEBALL - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">10.19</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-__________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_______</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.1</span>DATA: QUARTA-FEIRA - 6 DE MAIO DE 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.3</span>HORÁRIOS: QUADRA GRANDE EXTERNA QUADRA PEQUENA EXTERNA QUADRA COBERTA QUADRA DE VOLEIBOL EXTERNA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.4</span>Arbitragem: _____________ Arbitragem:______________ Arbitragem:______________ Arbitragem:______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.5</span>Coordenação: Zaliana Coordenação: Bruno Coordenação: Leca Coordenação: Bibiana</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.6</span>Mesário: Fabio Mesária: Thayna Mesário: Rafaela (11) Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.7</span><span class="text-emerald-600 font-bold">8h</span> 3° ano EM - Handebol - MASCULINO 6° ano - Futsal - MASC 7º ano - Futsal - MASCULINO 8º ano - HANDEBOL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.8</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.9</span><span class="text-emerald-600 font-bold">8h40</span> 2° ano EM - Handebol MASCULINO 6° ano - Futsal - Feminino 7° ano - Futsal - FEMININO 8º ano - HANDEBOL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.11</span><span class="text-emerald-600 font-bold">9h20</span> 3° ano EM - Handebol - MASCULINO 6° ano - Futsal - MASC 7º ano Futsal - MASCULIMO 8º ano HANDEBOL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-__________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P_________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.13</span><span class="text-emerald-600 font-bold">10h10</span> RECREIO RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.14</span><span class="text-emerald-600 font-bold">10h30</span> 2° ano - Handebol - MASCULINO 6° ano - Futsal - FEMININO 7° ano - Futsal - FEMININO 8º ano - HANDEBOL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.15</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-____________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-___________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-___________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.16</span><span class="text-emerald-600 font-bold">11h10</span> 3° ano EM - Handebol- MASCULINO 6° ano EM - Futsal - MASC 7º ano - Futsal - MASCULINO 8º ano - HANDEBOL - MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.17</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-__________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.18</span><span class="text-emerald-600 font-bold">11h50</span> 2° ano Handebol MASCULINO 6° ano - Futsal - FEMININO 7° ano - Futsal - FEMININO 8º ano - HANDEBOL - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">11.19</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-______________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-___________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.1</span>DATA: QUARTA-FEIRA - 6 DE MAIO DE 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.3</span>HORÁRIOS: GRAMA GRANDE QUADRA 1 e 2:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.4</span>Arbitragem:_____________ Arbitragem:____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.5</span>Coordenação: Amadeu Coordenação: Daniel</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.6</span>Mesário: Mesário: Giovana (AEE)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.7</span><span class="text-emerald-600 font-bold">8h</span> 3º ano EM - Futsal - FEMININO <span class="text-emerald-600 font-bold">8h</span> -l Masc 1° ano EM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.9</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="text-emerald-600 font-bold">8h25</span>-Handebol Fem 1º ano EM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.10</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.11</span><span class="text-emerald-600 font-bold">8h50</span> -Handebol Masc - 9º ano EF II</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.13</span><span class="text-emerald-600 font-bold">9h15</span> - Handebol Fem 9º ano EF II</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.14</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.15</span><span class="text-emerald-600 font-bold">8h40</span> 2º ano EM - Handebol - FEMININO <span class="text-emerald-600 font-bold">9h40</span> -Handebol Masc 1° ano EM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.16</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.17</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="text-emerald-600 font-bold">10h05</span>-Handebol Fem 1º ano EM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.18</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.19</span><span class="text-emerald-600 font-bold">10h30</span> -Handebol Masc - 9º ano EF II</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.20</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.21</span><span class="text-emerald-600 font-bold">10h55</span> - Handebol Fem 9º ano EF II</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.22</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.23</span><span class="text-emerald-600 font-bold">9h20</span> 3º ano EM - Futsal - FEMININO <span class="text-emerald-600 font-bold">11h20</span> -Handebol Masc 1° ano EM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.24</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.25</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-______________ <span class="text-emerald-600 font-bold">11h45</span>-Handebol Fem 1º ano EM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.26</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.27</span><span class="text-emerald-600 font-bold">12h10</span> -Handebol Masc - 9º ano EF II</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.28</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.29</span><span class="text-emerald-600 font-bold">12h35</span> - Handebol Fem 9º ano EF II</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.30</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.31</span><span class="text-emerald-600 font-bold">10h10</span> RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.32</span><span class="text-emerald-600 font-bold">10h30</span> 2º ano EM - Handebol - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.33</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.34</span><span class="text-emerald-600 font-bold">11h10</span> 3º ano EM - Futsal - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">12.35</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">13.1</span><span class="text-emerald-600 font-bold">11h50</span> 2º ano EM - Handebol - FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">13.2</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.1</span>DATA: QUARTA-FEIRA - 06 DE MAIO 2026. TURNO: TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.3</span>HORÁRIOS: QUADRA GRANDE QUADRA VOLEIBOL QUADRA COBERTA QUADRA PEQUENA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.4</span>Arbitragem: Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.5</span>Coordenação: Daniel coordenação: Fabio Coordenação: Diogo Coordenação: Fabricio</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.6</span>Mesário: Mesário: Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.7</span><span class="text-emerald-600 font-bold">14h</span> 3° ano EF I - QUEIMADA MASCULINA 3° ano EF I - NEWCOMB FEMININO 1º ano EF I - FUTSAL MASC 1º ano EF I - CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> FEMININA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.9</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.11</span><span class="text-emerald-600 font-bold">14h40</span> 3° ano EF I - QUEIMADA MASCULINA 3° ano EF I - NEWCOMB FEMININO 1º ano EF I - FUTSAL MASC 1º ano EF I - CIRCUITO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.12</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-____________ FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.13</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.14</span><span class="text-emerald-600 font-bold">15h20</span> 3° ano EF I - QUEIMADA MASCULINA 3° ano EF I - NEWCOMB FEMININO 1º ano EF I - FUTSAL MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.15</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.16</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.17</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.18</span><span class="text-emerald-600 font-bold">16h</span> INTERVALO INTERVALO INTERVALO INTERVALO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.19</span><span class="text-emerald-600 font-bold">16h20</span> 3° ano EF I - QUEIMADA FEMININA 3° ano EF I - NEWCOMB MASC 1º ano EF I - FUTSAL FEM 1º ano EF I - CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.20</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> MASCULINA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.21</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.22</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.23</span><span class="text-emerald-600 font-bold">17h</span> 3° ano EF I - QUEIMADA FEMININA 3° ano EF I - NEWCOMB MASC 1º ano EF I - FUTSAL FEM 1º ano EF I - CIRCUITO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.24</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-____________ MASCULINO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.25</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.26</span><span class="text-emerald-600 font-bold">17h30</span> 3° ano EF I - QUEIMADA FEMININA 3° ano EF I - NEWCOMB MASC 1º ano EF I - FUTSAL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">14.27</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_____________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.1</span>DATA: QUARTA-FEIRA - 6 DE MAIO 2026. TURNO: TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.3</span>HORÁRIOS: QUADRA 1: QUADRA 2: QUADRA GRANDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.4</span>Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.5</span>Coordenação: Bruno Coordenação: Victor Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.6</span>Mesário: Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.7</span><span class="text-emerald-600 font-bold">14h</span> 2º ano EF I - DODGEBALL - MASC 2º ano EF I - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.8</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.9</span><span class="text-emerald-600 font-bold">14h40</span> 2º ano EF I - DODGEBALL - MASC 2º ano EF I - DODGEBALL -FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.10</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.11</span><span class="text-emerald-600 font-bold">15h20</span> 2º ano EF I - DODGEBALL - MASC 2º ano EF I - DODGEBALL - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.12</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.13</span><span class="text-emerald-600 font-bold">16h</span> INTERVALO INTERVALO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.14</span><span class="text-emerald-600 font-bold">16h30</span> 2º ano EF I - CORRIDA - MASCULINO 2º ano EF I - CORRIDA FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">15.15</span><span class="text-emerald-600 font-bold">17h10</span> 2º ano EF I - CIRCUITO MASCULINO 2º ano EF I - CIRCUITO FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.1</span>DATA: QUINTA-FEIRA - 7 DE MAIO 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.2</span>LOCAL: COLÉGIO MONTEIRO LOBATO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.3</span>HORÁRIOS: QUADRA GRANDE QUADRA PEQUENA QUADRA COBERTA QUADRA VOLEIBOL</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.4</span>Arbitragem: Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.5</span>Coordenação: Gilmar coordenação: Karen Coordenação: Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.6</span>Mesário: Fabio Mesário: Vinicius Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.7</span><span class="text-emerald-600 font-bold">8h</span> 5° ano EF I - HANDEBOL MASCULINO 5° ano EF I - HANDEBOL FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.8</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.9</span><span class="text-emerald-600 font-bold">8h40</span> 5° ano EF I - HANDEBOL MASCULINO 5° ano EF I - HANDEBOL FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-___________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-____________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.11</span><span class="text-emerald-600 font-bold">9h20</span> 5° ano EF I - HANDEBOL MASCULINO 5° ano EF I - HANDEBOL FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-____________________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-____________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.13</span><span class="text-emerald-600 font-bold">10h</span> RECREIO RECREIO RECREIO RECREIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.14</span><span class="text-emerald-600 font-bold">10h20</span> 5° ano EF I - BASQUETE MASCULINO 5° ano EF I - BASQUETE FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.15</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.16</span><span class="text-emerald-600 font-bold">10h50</span> 5° ano EF I - BASQUETE MASCULINO 5° ano EF I - BASQUETE FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.17</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.18</span><span class="text-emerald-600 font-bold">11h20</span> 5° ano EF I - BASQUETE MASCULINO 5° ano EF I - BASQUETE FEMININO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">16.19</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_______________________ <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_________________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.1</span>DATA: QUINTA-FEIRA - 7 DE MAIO 2026. TURNO: MANHÃ</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.2</span>LOCAL: MONTEIRO OPEN</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.3</span>HORÁRIOS: QUADRA 1: QUADRA 2: QUADRA GRANDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.4</span>Arbitragem: Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.5</span>Coordenação: Coordenação: Viviane (10:30) Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.6</span>Mesário: Mesário: Gabriel Mesário: Thayna</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.7</span>(*COLOCAR AS GOLEIRAS MÓVEIS)</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.8</span><span class="text-emerald-600 font-bold">8h</span> 4° ano EF I - HANDEBOL MASC 4° ano EF I - HANDEBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.9</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.10</span><span class="text-emerald-600 font-bold">8h40</span> 4° ano EF I - HANDEBOL MASC 4° ano EF I - HANDEBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.11</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.12</span><span class="text-emerald-600 font-bold">9h20</span> 4° ano EF I - HANDEBOL MASC 4° ano EF I - HANDEBOL FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.13</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_______________ <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.14</span><span class="text-emerald-600 font-bold">10h</span> INTERVALO INTERVALO INTERVALO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.15</span><span class="text-emerald-600 font-bold">10h20</span> 4° ano EF I - BASQUETE MASC 4° ano EF I - BASQUETE FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.16</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.17</span><span class="text-emerald-600 font-bold">10h50</span> 4° ano EF I - BASQUETE MASC 4° ano EF I - BASQUETE FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.18</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P-_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.19</span><span class="text-emerald-600 font-bold">11h20</span> 4° ano EF I - BASQUETE MASC 4° ano EF I - BASQUETE FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">17.20</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-_______________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.1</span>ENSINO FUNDAMENTAL II E ENSINO MÉDIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.2</span>DATA: QUINTA-FEIRA - 7 DE MAIO 2026. TURNO: MANHÃ E TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.3</span>LOCAL: ESTÁDIO DA PUCRS</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.4</span>HORÁRIOS CAMPO DE FUTEBOL 11 CAIXA DE AREIA COLCHÃO DE SALTOS COLCHÃO DE SALTOS PISTA DE CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.5</span>: GRAMA NATURAL ESTÁDIO ESTÁDIO INDOOR Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.6</span>APOIO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.7</span>Arbitragem:_______________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.8</span>GERAL</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.9</span>Arbitragem:___________ Arbitragem:___________ Arbitragem:___________ Coordenação: Daniel</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.10</span>Coordenação: Amadeu</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.11</span>Coordenação: Coordenação: Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.12</span>Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.13</span>Mesário: Mesário: Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.14</span><span class="text-emerald-600 font-bold">09h</span> 3º, 2º e 1º anos EM SALTO EM DISTÂNCIA - SALTO EM ALTURA SALTO EM ALTURA CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.15</span>Futebol de campo - FEMININO 6º e 7º anos - MASC 8º ano - MASC 9º ano - MASC 1º, 2º e 3º anos MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.16</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.17</span><span class="text-emerald-600 font-bold">10h</span> 3º, 2º e 1º anos EM SALTO EM DISTÂNCIA SALTO EM ALTURA SALTO EM ALTURA CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.18</span>Futebol de campo - FEMININO 1º, 2º e 3º anos MASC 6º ano - MASC 7º ano - MASC 8º e 9º anos MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.19</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.20</span><span class="text-emerald-600 font-bold">11h</span> 3º, 2º e 1º anos EM SALTO EM DISTÂNCIA SALTO EM ALTURA SALTO EM ALTURA CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.21</span>Futebol de campo - FEMININO 8º e 9º anos MASC 3º e 2º anos EM MASC 1ª ano EM MASC 6º e 7º anos MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.22</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.23</span><span class="text-emerald-600 font-bold">12h</span> INTERVALO INTERVALO INTERVALO INTERVALO INTERVALO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.24</span><span class="text-emerald-600 font-bold">14h</span> 3º, 2º e 1º anos EM SALTO EM DISTÂNCIA - SALTO EM ALTURA SALTO EM ALTURA CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.25</span>Futebol de campo - MASC 6º e 7º anos - FEM 8º ano - FEM 9º ano - FEM 1º, 2º e 3º anos FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.26</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.27</span><span class="text-emerald-600 font-bold">15h</span> 3º, 2º e 1º anos EM SALTO EM DISTÂNCIA SALTO EM ALTURA SALTO EM ALTURA CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.28</span>Futebol de campo - MASC 1º, 2º e 3º anos FEM 6º ano - FEM 7º ano - FEM 8º e 9º anos FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.29</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x P-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.30</span><span class="text-emerald-600 font-bold">16h</span> 3º, 2º e 1º anos EM SALTO EM DISTÂNCIA SALTO EM ALTURA SALTO EM ALTURA CORRIDA</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.31</span>Futebol de campo - MASC 8º e 9º anos FEM 3º e 2º anos EM - FEM 1ª ano EM - FEM 6º e 7º anos FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">18.32</span><span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> x V-_________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.1</span>DATA: QUINTA-FEIRA - 7 DE MAIO 2026. TURNO: MANHÃ E TARDE</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.2</span>LOCAL: CAMPOS DE FUTEBOL 7 - PUCRS</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.3</span>HORÁRIOS: QUADRA A DE FUTEBOL 7 QUADRA B DE FUTEBOL 7</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.4</span>APOIO Arbitragem: Arbitragem:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.5</span>GERAL Coordenação: Bruno Coordenação:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.6</span>Mesário: Mesário:</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.7</span><span class="text-emerald-600 font-bold">9h</span> 9º e 8º ano - FUTEBOL 7 - FEM 6º e 7º ano - FUTEBOL 7 - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.8</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.9</span><span class="text-emerald-600 font-bold">10h</span> 9º e 8º ano - FUTEBOL 7 - FEM 6º e 7º ano - FUTEBOL 7 - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.10</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P___________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.11</span><span class="text-emerald-600 font-bold">11h</span> 9º e 8º ano - FUTEBOL 7 - FEM 6º e 7º ano - FUTEBOL 7 - FEM</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.12</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-__________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.13</span><span class="text-emerald-600 font-bold">12h</span> INTERVALO INTERVALO</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.14</span><span class="text-emerald-600 font-bold">14h</span> 9º e 8º ano - FUTEBOL 7 - MASC 6º e 7º ano -FUTEBOL 7 - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.15</span><span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span> <span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x <span class="px-1 rounded bg-green-100 text-green-700">VERDE</span></div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.16</span><span class="text-emerald-600 font-bold">15h</span> 9º e 8º ano - FUTEBOL 7 - MASC 6º e 7º ano -FUTEBOL 7 - MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.17</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x P___________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x P-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.18</span><span class="text-emerald-600 font-bold">16h</span> 9º e 8º ano - FUTEBOL 7 - MASC 6º e 7º ano - FUTEBOL 7 MASC</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">19.19</span><span class="px-1 rounded bg-red-100 text-red-700">VERMELHO</span> x V-__________ <span class="px-1 rounded bg-purple-100 text-purple-700">ROXO</span> x V-____________</div><div class="py-0.5 hover:bg-slate-50 px-1 rounded border-b border-slate-50"><span class="text-slate-300 select-none mr-2">20.0</span></div></div>
+</div>
+
+</div>
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

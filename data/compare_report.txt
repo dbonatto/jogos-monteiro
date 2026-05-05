@@ -1,0 +1,257 @@
+======================================================================
+RELATÓRIO DE COMPARAÇÃO — JOGOS 2026
+======================================================================
+Jogos no HTML:         412
+Linhas extraídas PDF:  527
+Problemas no HTML:     124
+Linhas PDF sem match:  0
+
+--- PROBLEMAS NO HTML ---
+  Linha 120: 04/05 8h00 Monteiro Open Basquetebol
+    • DUPLICATA com linha 26
+  Linha 121: 04/05 8h00 Monteiro Open Dodgeball
+    • DUPLICATA com linha 27
+  Linha 123: 04/05 8h40 Monteiro Open Basquetebol
+    • DUPLICATA com linha 29
+  Linha 124: 04/05 8h40 Monteiro Open Basquetebol
+    • DUPLICATA com linha 30
+  Linha 126: 04/05 9h20 Monteiro Open Basquetebol
+    • DUPLICATA com linha 32
+  Linha 127: 04/05 9h20 Monteiro Open Dodgeball
+    • DUPLICATA com linha 33
+  Linha 129: 04/05 10h30 Monteiro Open Basquetebol
+    • DUPLICATA com linha 35
+  Linha 130: 04/05 10h30 Monteiro Open Basquetebol
+    • DUPLICATA com linha 36
+  Linha 132: 04/05 11h10 Monteiro Open Basquetebol
+    • DUPLICATA com linha 38
+  Linha 133: 04/05 11h10 Monteiro Open Dodgeball
+    • DUPLICATA com linha 39
+  Linha 135: 04/05 11h50 Monteiro Open Basquetebol
+    • DUPLICATA com linha 41
+  Linha 136: 04/05 11h50 Monteiro Open Basquetebol
+    • DUPLICATA com linha 42
+  Linha 167: 05/05 14h00 Colégio Monteiro Lobato Futsal
+    • DUPLICATA com linha 161
+  Linha 170: 05/05 14h40 Colégio Monteiro Lobato Futsal
+    • DUPLICATA com linha 162
+  Linha 173: 05/05 15h20 Colégio Monteiro Lobato Futsal
+    • DUPLICATA com linha 163
+  Linha 176: 05/05 16h20 Colégio Monteiro Lobato Futsal
+    • DUPLICATA com linha 164
+  Linha 179: 05/05 17h00 Colégio Monteiro Lobato Futsal
+    • DUPLICATA com linha 165
+  Linha 182: 05/05 17h30 Colégio Monteiro Lobato Futsal
+    • DUPLICATA com linha 166
+  Linha 185: 05/05 8h00 Monteiro Open Handebol
+    • DUPLICATA com linha 137
+  Linha 186: 05/05 8h00 Monteiro Open Futsal
+    • DUPLICATA com linha 138
+  Linha 187: 05/05 8h00 Monteiro Open Futsal
+    • DUPLICATA com linha 139
+  Linha 188: 05/05 8h00 Monteiro Open Handebol
+    • DUPLICATA com linha 140
+  Linha 189: 05/05 8h40 Monteiro Open Handebol
+    • DUPLICATA com linha 141
+  Linha 190: 05/05 8h40 Monteiro Open Futsal
+    • DUPLICATA com linha 142
+  Linha 191: 05/05 8h40 Monteiro Open Futsal
+    • DUPLICATA com linha 143
+  Linha 192: 05/05 8h40 Monteiro Open Handebol
+    • DUPLICATA com linha 144
+  Linha 193: 05/05 9h20 Monteiro Open Handebol
+    • DUPLICATA com linha 145
+  Linha 194: 05/05 9h20 Monteiro Open Futsal
+    • DUPLICATA com linha 146
+  Linha 195: 05/05 9h20 Monteiro Open Futsal
+    • DUPLICATA com linha 147
+  Linha 196: 05/05 9h20 Monteiro Open Handebol
+    • DUPLICATA com linha 148
+  Linha 197: 05/05 10h30 Monteiro Open Handebol
+    • DUPLICATA com linha 149
+  Linha 198: 05/05 10h30 Monteiro Open Futsal
+    • DUPLICATA com linha 150
+  Linha 199: 05/05 10h30 Monteiro Open Futsal
+    • DUPLICATA com linha 151
+  Linha 200: 05/05 10h30 Monteiro Open Handebol
+    • DUPLICATA com linha 152
+  Linha 201: 05/05 11h10 Monteiro Open Handebol
+    • DUPLICATA com linha 153
+  Linha 202: 05/05 11h10 Monteiro Open Futsal
+    • DUPLICATA com linha 154
+  Linha 203: 05/05 11h10 Monteiro Open Futsal
+    • DUPLICATA com linha 155
+  Linha 204: 05/05 11h10 Monteiro Open Handebol
+    • DUPLICATA com linha 156
+  Linha 205: 05/05 11h50 Monteiro Open Handebol
+    • DUPLICATA com linha 157
+  Linha 206: 05/05 11h50 Monteiro Open Futsal
+    • DUPLICATA com linha 158
+  Linha 207: 05/05 11h50 Monteiro Open Futsal
+    • DUPLICATA com linha 159
+  Linha 208: 05/05 11h50 Monteiro Open Handebol
+    • DUPLICATA com linha 160
+  Linha 280: 07/05 09h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 279
+  Linha 281: 07/05 09h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 280
+  Linha 283: 07/05 09h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 282
+  Linha 287: 07/05 09h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 286
+  Linha 288: 07/05 09h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 287
+  Linha 290: 07/05 10h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 289
+  Linha 291: 07/05 10h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 290
+  Linha 293: 07/05 10h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 292
+  Linha 294: 07/05 10h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 293
+  Linha 298: 07/05 10h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 297
+  Linha 300: 07/05 11h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 299
+  Linha 301: 07/05 11h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 300
+  Linha 303: 07/05 11h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 302
+  Linha 305: 07/05 11h00 Estádio da PUCRS Salto em Altura
+    • DUPLICATA com linha 304
+  Linha 308: 07/05 11h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 307
+  Linha 310: 07/05 14h00/15h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 309
+  Linha 311: 07/05 14h00/15h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 310
+  Linha 312: 07/05 14h00/15h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 311
+  Linha 313: 07/05 14h00/15h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 312
+  Linha 314: 07/05 14h00/15h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 313
+  Linha 316: 07/05 14h00/15h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 315
+  Linha 317: 07/05 14h00/15h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 316
+  Linha 318: 07/05 14h00/15h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 317
+  Linha 319: 07/05 14h00/15h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 318
+  Linha 321: 07/05 14h00/15h00 Estádio da PUCRS Salto em Altura
+    • DUPLICATA com linha 320
+  Linha 323: 07/05 14h00/15h00 Estádio da PUCRS Salto em Altura
+    • DUPLICATA com linha 322
+  Linha 325: 07/05 14h00/15h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 324
+  Linha 326: 07/05 14h00/15h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 325
+  Linha 327: 07/05 14h00/15h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 326
+  Linha 329: 07/05 16h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 328
+  Linha 330: 07/05 16h00 Estádio da PUCRS Futebol
+    • DUPLICATA com linha 329
+  Linha 332: 07/05 16h00 Estádio da PUCRS Salto em Distância
+    • DUPLICATA com linha 331
+  Linha 334: 07/05 16h00 Estádio da PUCRS Salto em Altura
+    • DUPLICATA com linha 333
+  Linha 337: 07/05 16h00 Estádio da PUCRS Corrida
+    • DUPLICATA com linha 336
+  Linha 339: 07/05 9h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 338
+  Linha 341: 07/05 9h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 340
+  Linha 343: 07/05 10h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 342
+  Linha 345: 07/05 10h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 344
+  Linha 347: 07/05 11h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 346
+  Linha 349: 07/05 11h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 348
+  Linha 351: 07/05 14h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 350
+  Linha 353: 07/05 14h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 352
+  Linha 355: 07/05 15h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 354
+  Linha 357: 07/05 15h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 356
+  Linha 359: 07/05 16h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 358
+  Linha 361: 07/05 16h00 Campos de Futebol 7 - PUCRS Futebol 7
+    • DUPLICATA com linha 360
+  Linha 363: 04/05 16h30 Monteiro Open Gincana
+    • DUPLICATA com linha 362
+  Linha 364: 04/05 16h30 Monteiro Open Gincana
+    • DUPLICATA com linha 363
+  Linha 366: 04/05 16h30 Monteiro Open Gincana
+    • DUPLICATA com linha 365
+  Linha 367: 04/05 16h30 Monteiro Open Gincana
+    • DUPLICATA com linha 366
+  Linha 369: 05/05 10h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 368
+  Linha 370: 05/05 10h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 369
+  Linha 372: 05/05 11h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 371
+  Linha 373: 05/05 11h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 372
+  Linha 374: 05/05 11h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 373
+  Linha 376: 05/05 10h00 Monteiro Open Gincana
+    • DUPLICATA com linha 375
+  Linha 377: 05/05 10h00 Monteiro Open Gincana
+    • DUPLICATA com linha 376
+  Linha 379: 06/05 8h00 Monteiro Open Gincana
+    • DUPLICATA com linha 378
+  Linha 381: 06/05 13h50 Monteiro Open Gincana
+    • DUPLICATA com linha 380
+  Linha 382: 06/05 13h50 Monteiro Open Gincana
+    • DUPLICATA com linha 381
+  Linha 383: 06/05 13h50 Monteiro Open Gincana
+    • DUPLICATA com linha 382
+  Linha 385: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 384
+  Linha 386: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 385
+  Linha 387: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 386
+  Linha 388: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 387
+  Linha 389: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 388
+  Linha 390: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 389
+  Linha 391: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 390
+  Linha 392: 06/05 14h00 Colégio Monteiro Lobato Desafio Acadêmico
+    • DUPLICATA com linha 391
+  Linha 394: 07/05 8h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 393
+  Linha 395: 07/05 8h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 394
+  Linha 397: 07/05 14h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 396
+  Linha 398: 07/05 14h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 397
+  Linha 399: 07/05 14h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 398
+  Linha 400: 07/05 14h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 399
+  Linha 402: 07/05 14h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 401
+  Linha 404: 07/05 10h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 403
+  Linha 405: 07/05 10h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 404
+  Linha 407: 07/05 16h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 406
+  Linha 409: 07/05 16h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 408
+  Linha 410: 07/05 16h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 409
+  Linha 412: 07/05 16h00 Colégio Monteiro Lobato Gincana
+    • DUPLICATA com linha 411

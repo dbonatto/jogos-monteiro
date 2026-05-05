@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogos Escolares 2026 — Monteiro Lobato</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18",
+      "react/jsx-runtime": "https://esm.sh/react@18/jsx-runtime",
+      "react-dom/client": "https://esm.sh/react-dom@18/client",
+      "lucide-react": "https://esm.sh/lucide-react@0.344.0"
+    }
+  }
+  </script>
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0f172a;color:white;font-family:sans-serif;">
+      <div style="text-align:center"><div style="font-size:2.5rem;margin-bottom:12px">🏆</div><div style="font-size:1.1rem">Carregando...</div></div>
+    </div>
+  </div>
+  <script type="text/babel" data-type="module">
+import React, { useState, useMemo, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { MapPin, Clock, Calendar, Trophy, Filter, X, Users, Activity, Check, ChevronDown, ChevronUp, Info, HelpCircle } from 'lucide-react';
+
+// --- BASE DE DADOS COMPLETA ---
+const rawData = `
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h00|Quadra Grande Externa|3º ano Ensino Médio|Basquete|Masc|VERMELHO X ROXO
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h00|Quadra Pequena Externa|6º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X ROXO
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|3º ano Ensino Médio|Voleibol|Fem|ROXO X VERDE
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h00|Quadra de Voleibol Externa|2º ano Ensino Médio|Voleibol|Masc|VERMELHO X VERDE
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h40|Quadra Grande Externa|1º ano Ensino Médio|Futsal|Fem|VERMELHO X VERDE
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h40|Quadra Pequena Externa|6º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X VERDE
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h40|Quadra Coberta|7º ano Ensino Fundamental II|Voleibol|Fem|ROXO X VERDE
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|8h40|Quadra de Voleibol Externa|7º ano Ensino Fundamental II|Voleibol|Masc|VERMELHO X VERDE
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|9h20|Quadra Grande Externa|3º ano Ensino Médio|Basquete|Masc|VERDE X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|9h20|Quadra Pequena Externa|6º ano Ensino Fundamental II|Basquetebol|Masc|VERDE X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|9h20|Quadra Coberta|3º ano Ensino Médio|Voleibol|Fem|VERMELHO X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|9h20|Quadra de Voleibol Externa|2º ano Ensino Médio|Voleibol|Masc|ROXO X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|10h30|Quadra Grande Externa|1º ano Ensino Médio|Futsal|Fem|ROXO X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|10h30|Quadra Pequena Externa|6º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|10h30|Quadra Coberta|7º ano Ensino Fundamental II|Voleibol|Fem|VERMELHO X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|10h30|Quadra de Voleibol Externa|7º ano Ensino Fundamental II|Voleibol|Masc|ROXO X P-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h10|Quadra Grande Externa|3º ano Ensino Médio|Basquetebol|Masc|VERDE X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h10|Quadra Pequena Externa|6º ano Ensino Fundamental II|Basquetebol|Masc|VERDE X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h10|Quadra Coberta|3º ano Ensino Médio|Voleibol|Fem|VERMELHO X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h10|Quadra de Voleibol Externa|2º ano Ensino Médio|Voleibol|Masc|ROXO X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h50|Quadra Grande Externa|1º ano Ensino Médio|Futsal|Fem|ROXO X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h50|Quadra Pequena Externa|6º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h50|Quadra Coberta|7º ano Ensino Fundamental II|Voleibol|Fem|VERMELHO X V-
+04/05|Segunda|Manhã|Colégio Monteiro Lobato|11h50|Quadra de Voleibol Externa|7º ano Ensino Fundamental II|Voleibol|Masc|ROXO X V-
+04/05|Segunda|Manhã|Monteiro Open|8h00|Grama Grande|9º ano Ensino Fundamental II|Futsal|Masc|ROXO X VERMELHO
+04/05|Segunda|Manhã|Monteiro Open|8h00|Quadra 1|1º ano Ensino Médio|Basquete|Masc|ROXO X VERDE
+04/05|Segunda|Manhã|Monteiro Open|8h00|Quadra 2|2º ano Ensino Médio|Voleibol|Fem|VERMELHO X ROXO
+04/05|Segunda|Manhã|Monteiro Open|8h40|Grama Grande|9º ano Ensino Fundamental II|Futsal|Fem|VERDE X ROXO
+04/05|Segunda|Manhã|Monteiro Open|8h40|Quadra 1|8º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X VERDE
+04/05|Segunda|Manhã|Monteiro Open|8h40|Quadra 2|8º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X ROXO
+04/05|Segunda|Manhã|Monteiro Open|9h20|Grama Grande|9º ano Ensino Fundamental II|Futsal|Masc|VERDE X P-
+04/05|Segunda|Manhã|Monteiro Open|9h20|Quadra 1|1º ano Ensino Médio|Basquetebol|Masc|VERMELHO X P-
+04/05|Segunda|Manhã|Monteiro Open|9h20|Quadra 2|2º ano Ensino Médio|Voleibol|Fem|VERDE X P-
+04/05|Segunda|Manhã|Monteiro Open|10h30|Grama Grande|9º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X P-
+04/05|Segunda|Manhã|Monteiro Open|10h30|Quadra 1|8º ano Ensino Fundamental II|Basquetebol|Masc|ROXO X P-
+04/05|Segunda|Manhã|Monteiro Open|10h30|Quadra 2|8º ano Ensino Fundamental II|Basquetebol|Fem|P- X VERDE
+04/05|Segunda|Manhã|Monteiro Open|11h10|Grama Grande|9º ano Ensino Fundamental II|Futsal|Masc|VERDE X V-
+04/05|Segunda|Manhã|Monteiro Open|11h10|Quadra 1|1º ano Ensino Médio|Basquetebol|Masc|VERMELHO X V-
+04/05|Segunda|Manhã|Monteiro Open|11h10|Quadra 2|2º ano Ensino Médio|Voleibol|Fem|VERDE X V-
+04/05|Segunda|Manhã|Monteiro Open|11h50|Grama Grande|9º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X V-
+04/05|Segunda|Manhã|Monteiro Open|11h50|Quadra 1|8º ano Ensino Fundamental II|Basquetebol|Masc|ROXO X V-
+04/05|Segunda|Manhã|Monteiro Open|11h50|Quadra 2|8º ano Ensino Fundamental II|Basquetebol|Fem|VERDE X V-
+04/05|Segunda|Tarde|Monteiro Open|14h30|Quadra Grande|3º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X ROXO
+04/05|Segunda|Tarde|Monteiro Open|14h30|Quadra Pequena|3º ano Ensino Fundamental I|Futsal|Fem|ROXO X VERDE
+04/05|Segunda|Tarde|Monteiro Open|14h30|Quadra Coberta|1º ano Ensino Fundamental I|Queimada|Fem|ROXO X VERDE
+04/05|Segunda|Tarde|Monteiro Open|14h30|Quadra Voleibol|1º ano Ensino Fundamental I|Queimada|Masc|VERMELHO X VERDE
+04/05|Segunda|Tarde|Monteiro Open|15h10|Quadra Grande|3º ano Ensino Fundamental I|Futsal|Masc|VERDE X P-
+04/05|Segunda|Tarde|Monteiro Open|15h10|Quadra Pequena|3º ano Ensino Fundamental I|Futsal|Fem|VERMELHO X P-
+04/05|Segunda|Tarde|Monteiro Open|15h10|Quadra Coberta|1º ano Ensino Fundamental I|Queimada|Fem|VERMELHO X P-
+04/05|Segunda|Tarde|Monteiro Open|15h10|Quadra Voleibol|1º ano Ensino Fundamental I|Queimada|Masc|ROXO X P-
+04/05|Segunda|Tarde|Monteiro Open|16h20|Quadra Grande|3º ano Ensino Fundamental I|Futsal|Masc|VERDE X V-
+04/05|Segunda|Tarde|Monteiro Open|16h20|Quadra Pequena|3º ano Ensino Fundamental I|Futsal|Fem|VERMELHO X V-
+04/05|Segunda|Tarde|Monteiro Open|16h20|Quadra Coberta|1º ano Ensino Fundamental I|Bola Por Cima da Rede|Fem|VERMELHO X ROXO
+04/05|Segunda|Tarde|Monteiro Open|16h20|Quadra Voleibol|1º ano Ensino Fundamental I|Bola Por Cima da Rede|Masc|ROXO X VERDE
+04/05|Segunda|Tarde|Monteiro Open|17h00|Quadra Grande|3º ano Ensino Fundamental I|Dodgeball|Masc|VERMELHO X VERDE
+04/05|Segunda|Tarde|Monteiro Open|17h00|Quadra Pequena|3º ano Ensino Fundamental I|Dodgeball|Fem|VERMELHO X ROXO
+04/05|Segunda|Tarde|Monteiro Open|17h00|Quadra Coberta|1º ano Ensino Fundamental I|Bola Por Cima da Rede|Fem|VERDE X P-
+04/05|Segunda|Tarde|Monteiro Open|17h00|Quadra Voleibol|1º ano Ensino Fundamental I|Bola Por Cima da Rede|Masc|VERMELHO X P-
+04/05|Segunda|Tarde|Monteiro Open|17h10|Quadra Grande|3º ano Ensino Fundamental I|Dodgeball|Masc|ROXO X P-
+04/05|Segunda|Tarde|Monteiro Open|17h10|Quadra Pequena|3º ano Ensino Fundamental I|Dodgeball|Fem|VERDE X P-
+04/05|Segunda|Tarde|Monteiro Open|17h20|Quadra Grande|3º ano Ensino Fundamental I|Dodgeball|Masc|ROXO X V-
+04/05|Segunda|Tarde|Monteiro Open|17h20|Quadra Pequena|3º ano Ensino Fundamental I|Dodgeball|Fem|VERDE X V-
+04/05|Segunda|Tarde|Monteiro Open|17h20|Quadra Coberta|1º ano Ensino Fundamental I|Bola Por Cima da Rede|Fem|VERDE X V-
+04/05|Segunda|Tarde|Monteiro Open|17h20|Quadra Voleibol|1º ano Ensino Fundamental I|Bola Por Cima da Rede|Masc|VERMELHO X V-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|14h30|Quadra 2|2º ano Ensino Fundamental I|Queimada dos Números|Fem|VERMELHO X VERDE
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|14h30|Quadra Grande|2º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X ROXO
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|15h10|Quadra 2|2º ano Ensino Fundamental I|Queimada dos Números|Fem|ROXO X P-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|15h10|Quadra Grande|2º ano Ensino Fundamental I|Futsal|Masc|VERDE X P-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|16h20|Quadra 2|2º ano Ensino Fundamental I|Queimada dos Números|Fem|ROXO X V-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|16h20|Quadra Grande|2º ano Ensino Fundamental I|Futsal|Masc|VERDE X V-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h00|Quadra 2|2º ano Ensino Fundamental I|Queimada dos Números|Masc|ROXO X VERDE
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h00|Quadra Grande|2º ano Ensino Fundamental I|Futsal|Fem|VERMELHO X VERDE
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h10|Quadra 2|2º ano Ensino Fundamental I|Queimada dos Números|Masc|VERMELHO X P-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h10|Quadra Grande|2º ano Ensino Fundamental I|Futsal|Fem|ROXO X P-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h20|Quadra 2|2º ano Ensino Fundamental I|Queimada dos Números|Masc|VERMELHO X V-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h20|Quadra Grande|2º ano Ensino Fundamental I|Futsal|Fem|ROXO X V-
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h30|Quadra Pequena|7º ano Ensino Fundamental II|Basquete|Fem|VERMELHO X ROXO
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h30|Quadra Grande Externa|7º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X VERDE
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h30|Quadra Coberta|8º ano Ensino Fundamental II|Voleibol|Masc|VERMELHO X VERDE
+04/05|Segunda|Tarde|Colégio Monteiro Lobato|17h30|Quadra de Voleibol Externa|6º ano Ensino Fundamental II|Voleibol|Fem|VERMELHO X ROXO
+04/05|Segunda|Noite|Monteiro Open|18h00|Quadra Pequena|7º ano Ensino Fundamental II|Basquetebol|Fem|P- X ROXO
+04/05|Segunda|Noite|Monteiro Open|18h00|Quadra Grande Externa|7º ano Ensino Fundamental II|Basquete|Fem|ROXO X P-
+04/05|Segunda|Noite|Monteiro Open|18h00|Quadra Coberta|8º ano Ensino Fundamental II|Voleibol|Masc|ROXO X P-
+04/05|Segunda|Noite|Monteiro Open|18h00|Quadra de Voleibol Externa|6º ano Ensino Fundamental II|Voleibol|Fem|VERDE X P-
+04/05|Segunda|Noite|Monteiro Open|18h30|Quadra Pequena|7º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X V-
+04/05|Segunda|Noite|Monteiro Open|18h30|Quadra Grande Externa|7º ano Ensino Fundamental II|Basquete|Fem|ROXO X V-
+04/05|Segunda|Noite|Monteiro Open|18h30|Quadra Coberta|8º ano Ensino Fundamental II|Voleibol|Masc|ROXO X V-
+04/05|Segunda|Noite|Monteiro Open|18h30|Quadra de Voleibol Externa|6º ano Ensino Fundamental II|Voleibol|Fem|VERDE X V-
+04/05|Segunda|Noite|Monteiro Open|19h00|Quadra Pequena|3º ano Ensino Médio|Handebol|Fem|VERMELHO X ROXO
+04/05|Segunda|Noite|Monteiro Open|19h00|Quadra Grande Externa|2º ano Ensino Médio|Futsal|Fem|VERMELHO X ROXO
+04/05|Segunda|Noite|Monteiro Open|19h00|Quadra Coberta|1º ano Ensino Médio|Vôlei|Fem|VERDE X ROXO
+04/05|Segunda|Noite|Monteiro Open|19h00|Quadra de Voleibol Externa|9º ano Ensino Fundamental II|Voleibol|Fem|VERDE X VERMELHO
+04/05|Segunda|Noite|Monteiro Open|19h30|Quadra Pequena|2º ano Ensino Médio|Futsal|Fem|VERDE X P-
+04/05|Segunda|Noite|Monteiro Open|19h30|Quadra Grande Externa|3º ano Ensino Médio|Handebol|Fem|VERDE X P-
+04/05|Segunda|Noite|Monteiro Open|19h30|Quadra Coberta|1º ano Ensino Médio|Vôlei|Fem|VERMELHO X V-
+04/05|Segunda|Noite|Monteiro Open|19h30|Quadra de Voleibol Externa|9º ano Ensino Fundamental II|Voleibol|Fem|ROXO X P-
+04/05|Segunda|Noite|Monteiro Open|20h00|Quadra Pequena|3º ano Ensino Médio|Handebol|Fem|VERDE X V-
+04/05|Segunda|Noite|Monteiro Open|20h00|Quadra Grande Externa|2º ano Ensino Médio|Futsal|Fem|VERDE X V-
+04/05|Segunda|Noite|Monteiro Open|20h00|Quadra Coberta|1º ano Ensino Médio|Vôlei|Fem|VERMELHO X V-
+04/05|Segunda|Noite|Monteiro Open|20h00|Quadra de Voleibol Externa|9º ano Ensino Fundamental II|Voleibol|Fem|ROXO X V-
+04/05|Segunda|Tarde|Monteiro Open|17h30|Quadra Grande|1º ano Ensino Médio|Futsal|Masc|VERMELHO X VERDE
+04/05|Segunda|Tarde|Monteiro Open|17h30|Quadra 1|6º ano Ensino Fundamental II|Voleibol|Masc|VERMELHO X ROXO
+04/05|Segunda|Tarde|Monteiro Open|17h30|Quadra 2|8º ano Ensino Fundamental II|Voleibol|Fem|ROXO X VERDE
+04/05|Segunda|Noite|Colégio Monteiro Lobato|18h00|Quadra Grande|1º ano Ensino Médio|Futsal|Masc|ROXO X P-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|18h00|Quadra 1|6º ano Ensino Fundamental II|Voleibol|Masc|VERDE X P-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|18h00|Quadra 2|8º ano Ensino Fundamental II|Voleibol|Fem|VERMELHO X P-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|18h30|Quadra Grande|1º ano Ensino Médio|Futsal|Masc|ROXO X V-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|18h30|Quadra 1|6º ano Ensino Fundamental II|Voleibol|Masc|VERDE X V-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|18h30|Quadra 2|8º ano Ensino Fundamental II|Voleibol|Fem|VERMELHO X V-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|19h00|Quadra Grande|2º ano Ensino Médio|Futsal|Masc|VERMELHO X ROXO
+04/05|Segunda|Noite|Colégio Monteiro Lobato|19h00|Quadra 1|3º ano Ensino Médio|Voleibol|Masc|ROXO X VERDE
+04/05|Segunda|Noite|Colégio Monteiro Lobato|19h00|Quadra 2|9º ano Ensino Fundamental II|Voleibol|Masc|ROXO X VERDE
+04/05|Segunda|Noite|Colégio Monteiro Lobato|19h30|Quadra Grande|2º ano Ensino Médio|Futsal|Masc|VERDE X P-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|19h30|Quadra 1|3º ano Ensino Médio|Voleibol|Masc|VERMELHO X P-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|19h30|Quadra 2|9º ano Ensino Fundamental II|Voleibol|Masc|VERMELHO X P-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|20h00|Quadra Grande|2º ano Ensino Médio|Futsal|Masc|VERDE X V-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|20h00|Quadra 1|3º ano Ensino Médio|Voleibol|Masc|VERMELHO X V-
+04/05|Segunda|Noite|Colégio Monteiro Lobato|20h00|Quadra 2|9º ano Ensino Fundamental II|Voleibol|Masc|VERMELHO X V-
+04/05|Segunda|Manhã|Monteiro Open|8h00|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Fem|VERMELHO X VERDE
+04/05|Segunda|Manhã|Monteiro Open|8h00|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERMELHO X ROXO
+04/05|Segunda|Manhã|Monteiro Open|8h00|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|ROXO X VERDE
+04/05|Segunda|Manhã|Monteiro Open|8h40|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Masc|VERMELHO X ROXO
+04/05|Segunda|Manhã|Monteiro Open|8h40|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|ROXO X VERDE
+04/05|Segunda|Manhã|Monteiro Open|8h40|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X VERDE
+04/05|Segunda|Manhã|Monteiro Open|9h20|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Fem|ROXO X P-
+04/05|Segunda|Manhã|Monteiro Open|9h20|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERDE X P-
+04/05|Segunda|Manhã|Monteiro Open|9h20|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|VERMELHO X P-
+04/05|Segunda|Manhã|Monteiro Open|10h30|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Masc|VERDE X P-
+04/05|Segunda|Manhã|Monteiro Open|10h30|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X P-
+04/05|Segunda|Manhã|Monteiro Open|10h30|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X P-
+04/05|Segunda|Manhã|Monteiro Open|11h10|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Fem|ROXO X V-
+04/05|Segunda|Manhã|Monteiro Open|11h10|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERDE X V-
+04/05|Segunda|Manhã|Monteiro Open|11h10|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|VERMELHO X V-
+04/05|Segunda|Manhã|Monteiro Open|11h50|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Masc|VERDE X V-
+04/05|Segunda|Manhã|Monteiro Open|11h50|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X V-
+04/05|Segunda|Manhã|Monteiro Open|11h50|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X V-
+05/05|Terça|Manhã|Monteiro Open|8h00|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Fem|VERMELHO X VERDE
+05/05|Terça|Manhã|Monteiro Open|8h00|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERMELHO X ROXO
+05/05|Terça|Manhã|Monteiro Open|8h00|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|ROXO X VERDE
+05/05|Terça|Manhã|Monteiro Open|8h40|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Masc|VERMELHO X ROXO
+05/05|Terça|Manhã|Monteiro Open|8h40|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|ROXO X VERDE
+05/05|Terça|Manhã|Monteiro Open|8h40|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|VERMELHO X VERDE
+05/05|Terça|Manhã|Monteiro Open|9h20|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Fem|ROXO X P-
+05/05|Terça|Manhã|Monteiro Open|9h20|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERDE X P-
+05/05|Terça|Manhã|Monteiro Open|9h20|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|VERMELHO X P-
+05/05|Terça|Manhã|Monteiro Open|10h30|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Masc|VERDE X P-
+05/05|Terça|Manhã|Monteiro Open|10h30|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X P-
+05/05|Terça|Manhã|Monteiro Open|10h30|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X P-
+05/05|Terça|Manhã|Monteiro Open|11h10|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Fem|ROXO X V-
+05/05|Terça|Manhã|Monteiro Open|11h10|Quadra 1|1º ano Ensino Médio|Basquetebol|Fem|VERDE X V-
+05/05|Terça|Manhã|Monteiro Open|11h10|Quadra 2|6º ano Ensino Fundamental II|Dodgeball|Fem|VERMELHO X V-
+05/05|Terça|Manhã|Monteiro Open|11h50|Quadra Grande|7º ano Ensino Fundamental II|Handebol|Masc|VERDE X V-
+05/05|Terça|Manhã|Monteiro Open|11h50|Quadra 1|9º ano Ensino Fundamental II|Basquetebol|Masc|VERMELHO X V-
+05/05|Terça|Manhã|Monteiro Open|11h50|Quadra 2|9º ano Ensino Fundamental II|Basquetebol|Fem|ROXO X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h00|Quadra Grande Externa|3º ano Ensino Médio|Futsal|Masc|ROXO X VERDE
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h00|Quadra Pequena Externa|3º ano Ensino Médio|Basquete|Fem|VERMELHO X VERDE
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|8º ano Ensino Fundamental II|Futsal|Masc|VERMELHO X ROXO
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h00|Quadra de Voleibol Externa|1º ano Ensino Médio|Voleibol|Masc|VERMELHO X VERDE
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h40|Quadra Grande Externa|2º ano Ensino Médio|Basquete|Masc|VERMELHO X ROXO
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h40|Quadra Pequena Externa|2º ano Ensino Médio|Basquete|Fem|ROXO X VERDE
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h40|Quadra Coberta|8º ano Ensino Fundamental II|Futsal|Fem|ROXO X VERDE
+05/05|Terça|Manhã|Colégio Monteiro Lobato|8h40|Quadra de Voleibol Externa|6º ano Ensino Fundamental II|Dodgeball|Masc|VERMELHO X VERDE
+05/05|Terça|Manhã|Colégio Monteiro Lobato|9h20|Quadra Grande Externa|3º ano Ensino Médio|Futsal|Masc|VERMELHO X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|9h20|Quadra Pequena Externa|3º ano Ensino Médio|Basquete|Fem|ROXO X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|9h20|Quadra Coberta|8º ano Ensino Fundamental II|Futsal|Masc|VERDE X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|9h20|Quadra de Voleibol Externa|1º ano Ensino Médio|Voleibol|Masc|ROXO X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h30|Quadra Grande Externa|2º ano Ensino Médio|Basquete|Masc|VERDE X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h30|Quadra Pequena Externa|2º ano Ensino Médio|Basquete|Fem|VERMELHO X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h30|Quadra Coberta|8º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h30|Quadra de Voleibol Externa|6º ano Ensino Fundamental II|Dodgeball|Masc|ROXO X P-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h10|Quadra Grande Externa|3º ano Ensino Médio|Futsal|Masc|VERMELHO X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h10|Quadra Pequena Externa|3º ano Ensino Médio|Basquete|Fem|ROXO X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h10|Quadra Coberta|8º ano Ensino Fundamental II|Futsal|Masc|VERDE X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h10|Quadra de Voleibol Externa|1º ano Ensino Médio|Voleibol|Masc|ROXO X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h50|Quadra Grande Externa|2º ano Ensino Médio|Basquete|Masc|VERDE X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h50|Quadra Pequena Externa|2º ano Ensino Médio|Basquete|Fem|VERMELHO X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h50|Quadra Coberta|8º ano Ensino Fundamental II|Futsal|Fem|VERMELHO X V-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h50|Quadra de Voleibol Externa|6º ano Ensino Fundamental II|Dodgeball|Masc|ROXO X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|5º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X VERDE
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h40|Quadra Grande|5º ano Ensino Fundamental I|Futsal|Masc|ROXO X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|15h20|Quadra Grande|5º ano Ensino Fundamental I|Futsal|Masc|ROXO X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|16h20|Quadra Grande|5º ano Ensino Fundamental I|Futsal|Fem|VERMELHO X ROXO
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h00|Quadra Grande|5º ano Ensino Fundamental I|Futsal|Fem|VERDE X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h30|Quadra Grande|5º ano Ensino Fundamental I|Futsal|Fem|VERDE X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Masc|ROXO X VERDE
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h00|Quadra 1|5º ano Ensino Fundamental I|Dodgeball|Fem|VERMELHO X ROXO
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h00|Quadra 2|4º ano Ensino Fundamental I|Dodgeball|Fem|VERMELHO X VERDE
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h40|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h40|Quadra 1|5º ano Ensino Fundamental I|Dodgeball|Fem|VERDE X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|14h40|Quadra 2|4º ano Ensino Fundamental I|Dodgeball|Fem|ROXO X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|15h20|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|15h20|Quadra 1|5º ano Ensino Fundamental I|Dodgeball|Fem|VERDE X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|15h20|Quadra 2|4º ano Ensino Fundamental I|Dodgeball|Fem|ROXO X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|16h20|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Fem|VERDE X VERMELHO
+05/05|Terça|Tarde|Colégio Monteiro Lobato|16h20|Quadra 1|5º ano Ensino Fundamental I|Dodgeball|Masc|ROXO X VERDE
+05/05|Terça|Tarde|Colégio Monteiro Lobato|16h20|Quadra 2|4º ano Ensino Fundamental I|Dodgeball|Masc|VERMELHO X ROXO
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h00|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Fem|ROXO X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h00|Quadra 1|5º ano Ensino Fundamental I|Dodgeball|Masc|VERMELHO X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h00|Quadra 2|4º ano Ensino Fundamental I|Dodgeball|Masc|VERDE X P-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h30|Quadra Grande|4º ano Ensino Fundamental I|Futsal|Fem|ROXO X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h30|Quadra 1|5º ano Ensino Fundamental I|Dodgeball|Masc|VERMELHO X V-
+05/05|Terça|Tarde|Colégio Monteiro Lobato|17h30|Quadra 2|4º ano Ensino Fundamental I|Dodgeball|Masc|VERDE X V-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|8h00|Grama Grande|3º ano Ensino Médio|Futsal|Fem|VERMELHO X VERDE
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|8h40|Grama Grande|2º ano Ensino Médio|Handebol|Fem|ROXO X VERDE
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|9h20|Grama Grande|3º ano Ensino Médio|Futsal|Fem|VERDE X V-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|10h30|Grama Grande|2º ano Ensino Médio|Handebol|Fem|VERMELHO X P-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|11h10|Grama Grande|3º ano Ensino Médio|Futsal|Fem|ROXO X V-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|11h50|Grama Grande|2º ano Ensino Médio|Handebol|Fem|VERMELHO X V-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|8h00|Quadra 1 e 2|1º ano Ensino Médio|Handebol|Masc|VERMELHO X ROXO
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|8h25|Quadra 1 e 2|1º ano Ensino Médio|Handebol|Fem|VERDE X ROXO
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|8h50|Quadra 1 e 2|9º ano Ensino Fundamental II|Handebol|Masc|VERMELHO X VERDE
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|9h15|Quadra 1 e 2|9º ano Ensino Fundamental II|Handebol|Fem|VERMELHO X ROXO
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|9h40|Quadra 1 e 2|1º ano Ensino Médio|Handebol|Masc|VERDE X P-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|10h05|Quadra 1 e 2|1º ano Ensino Médio|Handebol|Fem|VERMELHO X P-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|10h30|Quadra 1 e 2|9º ano Ensino Fundamental II|Handebol|Masc|ROXO X P-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|10h55|Quadra 1 e 2|9º ano Ensino Fundamental II|Handebol|Fem|VERDE X P-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|11h20|Quadra 1 e 2|1º ano Ensino Médio|Handebol|Masc|ROXO X P-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|11h45|Quadra 1 e 2|1º ano Ensino Médio|Handebol|Fem|VERMELHO X V-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|12h10|Quadra 1 e 2|9º ano Ensino Fundamental II|Handebol|Masc|ROXO X V-
+06/05|Quarta|Manhã|Colégio Monteiro Lobato|12h35|Quadra 1 e 2|9º ano Ensino Fundamental II|Handebol|Fem|VERDE X V-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|3º ano Ensino Fundamental I|Queimada|Masc|ROXO X VERDE
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Voleibol|3º ano Ensino Fundamental I|Newcomb|Fem|VERMELHO X VERDE
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|1º ano Ensino Fundamental I|Futsal|Masc|VERMELHO X VERDE
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h40|Quadra Grande|3º ano Ensino Fundamental I|Queimada|Masc|VERMELHO X P-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h40|Quadra Voleibol|3º ano Ensino Fundamental I|Newcomb|Fem|ROXO X P-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h40|Quadra Coberta|1º ano Ensino Fundamental I|Futsal|Masc|ROXO X P-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|15h20|Quadra Grande|3º ano Ensino Fundamental I|Queimada|Masc|VERMELHO X V-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|15h20|Quadra Voleibol|3º ano Ensino Fundamental I|Newcomb|Fem|ROXO X V-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|15h20|Quadra Coberta|1º ano Ensino Fundamental I|Futsal|Masc|ROXO X V-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|16h20|Quadra Grande|3º ano Ensino Fundamental I|Queimada|Fem|ROXO X VERDE
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|16h20|Quadra Voleibol|3º ano Ensino Fundamental I|Newcomb|Masc|VERMELHO X VERDE
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|16h20|Quadra Coberta|1º ano Ensino Fundamental I|Futsal|Fem|VERMELHO X ROXO
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|17h00|Quadra Grande|3º ano Ensino Fundamental I|Queimada|Fem|VERMELHO X P-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|17h00|Quadra Voleibol|3º ano Ensino Fundamental I|Newcomb|Masc|ROXO X P-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|17h00|Quadra Coberta|1º ano Ensino Fundamental I|Futsal|Fem|VERDE X P-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|17h30|Quadra Grande|3º ano Ensino Fundamental I|Queimada|Fem|VERMELHO X V-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|17h30|Quadra Voleibol|3º ano Ensino Fundamental I|Newcomb|Masc|ROXO X V-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|17h30|Quadra Coberta|1º ano Ensino Fundamental I|Futsal|Fem|VERDE X V-
+06/05|Quarta|Tarde|Monteiro Open|14h00|Quadra 1|2º ano Ensino Fundamental I|Dodgeball|Masc|VERMELHO X ROXO
+06/05|Quarta|Tarde|Monteiro Open|14h00|Quadra 2|2º ano Ensino Fundamental I|Dodgeball|Fem|ROXO X VERDE
+06/05|Quarta|Tarde|Monteiro Open|14h40|Quadra 1|2º ano Ensino Fundamental I|Dodgeball|Masc|VERDE X P-
+06/05|Quarta|Tarde|Monteiro Open|14h40|Quadra 2|2º ano Ensino Fundamental I|Dodgeball|Fem|VERMELHO X P-
+06/05|Quarta|Tarde|Monteiro Open|15h20|Quadra 1|2º ano Ensino Fundamental I|Dodgeball|Masc|VERDE X V-
+06/05|Quarta|Tarde|Monteiro Open|15h20|Quadra 2|2º ano Ensino Fundamental I|Dodgeball|Fem|VERMELHO X V-
+06/05|Quarta|Tarde|Monteiro Open|16h30|Quadra 1|2º ano Ensino Fundamental I|Corrida|Masc|-
+06/05|Quarta|Tarde|Monteiro Open|16h30|Quadra 2|2º ano Ensino Fundamental I|Corrida|Fem|-
+06/05|Quarta|Tarde|Monteiro Open|17h10|Quadra 1|2º ano Ensino Fundamental I|Circuito|Masc|-
+06/05|Quarta|Tarde|Monteiro Open|17h10|Quadra 2|2º ano Ensino Fundamental I|Circuito|Fem|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Grande|5º ano Ensino Fundamental I|Handebol|Masc|ROXO X VERDE
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Pequena|5º ano Ensino Fundamental I|Handebol|Fem|VERMELHO X ROXO
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h40|Quadra Grande|5º ano Ensino Fundamental I|Handebol|Masc|VERMELHO X P-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h40|Quadra Pequena|5º ano Ensino Fundamental I|Handebol|Fem|VERDE X P-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|9h20|Quadra Grande|5º ano Ensino Fundamental I|Handebol|Masc|VERMELHO X V-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|9h20|Quadra Pequena|5º ano Ensino Fundamental I|Handebol|Fem|VERDE X V-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h20|Quadra Grande|5º ano Ensino Fundamental I|Basquete|Masc|VERMELHO X VERDE
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h20|Quadra Pequena|5º ano Ensino Fundamental I|Basquete|Fem|ROXO X VERDE
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h50|Quadra Grande|5º ano Ensino Fundamental I|Basquete|Masc|ROXO X P-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h50|Quadra Pequena|5º ano Ensino Fundamental I|Basquete|Fem|VERMELHO X P-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|11h20|Quadra Grande|5º ano Ensino Fundamental I|Basquete|Masc|ROXO X V-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|11h20|Quadra Pequena|5º ano Ensino Fundamental I|Basquete|Fem|VERMELHO X V-
+07/05|Quinta|Manhã|Monteiro Open|8h00|Quadra 1|4º ano Ensino Fundamental I|Handebol|Masc|VERMELHO X VERDE
+07/05|Quinta|Manhã|Monteiro Open|8h00|Quadra 2|4º ano Ensino Fundamental I|Handebol|Fem|VERMELHO X ROXO
+07/05|Quinta|Manhã|Monteiro Open|8h40|Quadra 1|4º ano Ensino Fundamental I|Handebol|Masc|ROXO X P-
+07/05|Quinta|Manhã|Monteiro Open|8h40|Quadra 2|4º ano Ensino Fundamental I|Handebol|Fem|VERDE X P-
+07/05|Quinta|Manhã|Monteiro Open|9h20|Quadra 1|4º ano Ensino Fundamental I|Handebol|Masc|ROXO X V-
+07/05|Quinta|Manhã|Monteiro Open|9h20|Quadra 2|4º ano Ensino Fundamental I|Handebol|Fem|VERDE X V-
+07/05|Quinta|Manhã|Monteiro Open|10h20|Quadra 1|4º ano Ensino Fundamental I|Basquete|Masc|ROXO X VERDE
+07/05|Quinta|Manhã|Monteiro Open|10h20|Quadra 2|4º ano Ensino Fundamental I|Basquete|Fem|VERMELHO X VERDE
+07/05|Quinta|Manhã|Monteiro Open|10h50|Quadra 1|4º ano Ensino Fundamental I|Basquete|Masc|VERMELHO X P-
+07/05|Quinta|Manhã|Monteiro Open|10h50|Quadra 2|4º ano Ensino Fundamental I|Basquete|Fem|ROXO X P-
+07/05|Quinta|Manhã|Monteiro Open|11h20|Quadra 1|4º ano Ensino Fundamental I|Basquete|Masc|VERMELHO X V-
+07/05|Quinta|Manhã|Monteiro Open|11h20|Quadra 2|4º ano Ensino Fundamental I|Basquete|Fem|ROXO X V-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Fem|VERMELHO X ROXO
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Fem|VERMELHO X ROXO
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Fem|VERMELHO X ROXO
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Caixa de Areia|6º ano Ensino Fundamental II|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Caixa de Areia|7º ano Ensino Fundamental II|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Colchão de Saltos Estádio|8º ano Ensino Fundamental II|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Colchão de Saltos Indoor|9º ano Ensino Fundamental II|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Pista de Corrida|1º ano Ensino Médio|Corrida|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Pista de Corrida|2º ano Ensino Médio|Corrida|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|09h00|Pista de Corrida|3º ano Ensino Médio|Corrida|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Fem|VERDE X P-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Fem|VERDE X P-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Fem|VERDE X P-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Caixa de Areia|1º ano Ensino Médio|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Caixa de Areia|2º ano Ensino Médio|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Caixa de Areia|3º ano Ensino Médio|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Colchão de Saltos Estádio|6º ano Ensino Fundamental II|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Colchão de Saltos Indoor|7º ano Ensino Fundamental II|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Pista de Corrida|8º ano Ensino Fundamental II|Corrida|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|10h00|Pista de Corrida|9º ano Ensino Fundamental II|Corrida|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Fem|VERDE X V-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Fem|VERDE X V-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Fem|VERDE X V-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Caixa de Areia|8º ano Ensino Fundamental II|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Caixa de Areia|9º ano Ensino Fundamental II|Salto em Distância|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Colchão de Saltos Estádio|3º ano Ensino Médio|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Colchão de Saltos Estádio|2º ano Ensino Médio|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Colchão de Saltos Indoor|1º ano Ensino Médio|Salto em Altura|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Pista de Corrida|6º ano Ensino Fundamental II|Corrida|Masc|-
+07/05|Quinta|Manhã|Estádio da PUCRS|11h00|Pista de Corrida|7º ano Ensino Fundamental II|Corrida|Masc|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Masc|VERMELHO X ROXO
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Masc|VERMELHO X ROXO
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Masc|VERMELHO X ROXO
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Masc|P- X VERDE
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Masc|P- X VERDE
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Masc|P- X VERDE
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|6º ano Ensino Fundamental II|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|7º ano Ensino Fundamental II|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|1º ano Ensino Médio|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|2º ano Ensino Médio|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Caixa de Areia|3º ano Ensino Médio|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Colchão de Saltos Estádio|8º ano Ensino Fundamental II|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Colchão de Saltos Estádio|6º ano Ensino Fundamental II|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Colchão de Saltos Indoor|9º ano Ensino Fundamental II|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Colchão de Saltos Indoor|7º ano Ensino Fundamental II|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|2º ano Ensino Médio|Corrida|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|3º ano Ensino Médio|Corrida|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|8º ano Ensino Fundamental II|Corrida|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|14h00/15h00|Pista de Corrida|9º ano Ensino Fundamental II|Corrida|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Campo de Futebol 11|3º ano Ensino Médio|Futebol|Masc|VERDE X V-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Campo de Futebol 11|2º ano Ensino Médio|Futebol|Masc|VERDE X V-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Campo de Futebol 11|1º ano Ensino Médio|Futebol|Masc|VERDE X V-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Caixa de Areia|8º ano Ensino Fundamental II|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Caixa de Areia|9º ano Ensino Fundamental II|Salto em Distância|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Colchão de Saltos Estádio|3º ano Ensino Médio|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Colchão de Saltos Estádio|2º ano Ensino Médio|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Colchão de Saltos Indoor|1º ano Ensino Médio|Salto em Altura|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Pista de Corrida|6º ano Ensino Fundamental II|Corrida|Fem|-
+07/05|Quinta|Tarde|Estádio da PUCRS|16h00|Pista de Corrida|7º ano Ensino Fundamental II|Corrida|Fem|-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|9h00|Quadra A de Futebol 7|9º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X VERDE
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|9h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X VERDE
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|9h00|Quadra B de Futebol 7|6º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X VERDE
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|9h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X VERDE
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|10h00|Quadra A de Futebol 7|9º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X P-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|10h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X P-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|10h00|Quadra B de Futebol 7|6º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X P-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|10h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X P-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|11h00|Quadra A de Futebol 7|9º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X V-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|11h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Fem|VERMELHO X V-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|11h00|Quadra B de Futebol 7|6º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X V-
+07/05|Quinta|Manhã|Campos de Futebol 7 - PUCRS|11h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Fem|ROXO X V-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|14h00|Quadra A de Futebol 7|9º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X VERDE
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|14h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X VERDE
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|14h00|Quadra B de Futebol 7|6º ano Ensino Fundamental II|Futebol 7|Masc|VERDE X VERMELHO
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|14h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Masc|VERDE X VERMELHO
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|15h00|Quadra A de Futebol 7|9º ano Ensino Fundamental II|Futebol 7|Masc|VERMELHO X P-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|15h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Masc|VERMELHO X P-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|15h00|Quadra B de Futebol 7|6º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X P-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|15h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X P-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|16h00|Quadra A de Futebol 7|9º ano Ensino Fundamental II|Futebol 7|Masc|VERMELHO X V-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|16h00|Quadra A de Futebol 7|8º ano Ensino Fundamental II|Futebol 7|Masc|VERMELHO X V-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|16h00|Quadra B de Futebol 7|6º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X V-
+07/05|Quinta|Tarde|Campos de Futebol 7 - PUCRS|16h00|Quadra B de Futebol 7|7º ano Ensino Fundamental II|Futebol 7|Masc|ROXO X V-
+04/05|Segunda|Tarde|Monteiro Open|16h30|Quadrinha de Vôlei|4º ano Ensino Fundamental I (Turma 41)|Gincana|Misto|-
+04/05|Segunda|Tarde|Monteiro Open|16h30|Quadrinha de Vôlei|4º ano Ensino Fundamental I (Turma 42)|Gincana|Misto|-
+04/05|Segunda|Tarde|Monteiro Open|16h30|Quadrinha de Vôlei|4º ano Ensino Fundamental I (Turma 43)|Gincana|Misto|-
+04/05|Segunda|Tarde|Monteiro Open|16h30|Quadra Grande|5º ano Ensino Fundamental I (Turma 51)|Gincana|Misto|-
+04/05|Segunda|Tarde|Monteiro Open|16h30|Quadra Grande|5º ano Ensino Fundamental I (Turma 52)|Gincana|Misto|-
+04/05|Segunda|Tarde|Monteiro Open|16h30|Quadra Grande|5º ano Ensino Fundamental I (Turma 53)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h00|Área em frente ao teatro|1º ano Ensino Fundamental I (Turma 11)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h00|Área em frente ao teatro|1º ano Ensino Fundamental I (Turma 12)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|10h00|Área em frente ao teatro|1º ano Ensino Fundamental I (Turma 13)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 21)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 22)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 23)|Gincana|Misto|-
+05/05|Terça|Manhã|Colégio Monteiro Lobato|11h00|Área em frente ao teatro|2º ano Ensino Fundamental I (Turma 24)|Gincana|Misto|-
+05/05|Terça|Manhã|Monteiro Open|10h00|Quadras de Areia|3º ano Ensino Fundamental I (Turma 31)|Gincana|Misto|-
+05/05|Terça|Manhã|Monteiro Open|10h00|Quadras de Areia|3º ano Ensino Fundamental I (Turma 32)|Gincana|Misto|-
+05/05|Terça|Manhã|Monteiro Open|10h00|Quadras de Areia|3º ano Ensino Fundamental I (Turma 33)|Gincana|Misto|-
+06/05|Quarta|Manhã|Monteiro Open|8h00|Quadra Sintética|4º ano Ensino Fundamental I (Turma 41)|Gincana|Misto|-
+06/05|Quarta|Manhã|Monteiro Open|8h00|Quadra Sintética|5º ano Ensino Fundamental I (Turma 51)|Gincana|Misto|-
+06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|4º ano Ensino Fundamental I (Turma 42)|Gincana|Misto|-
+06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|4º ano Ensino Fundamental I (Turma 43)|Gincana|Misto|-
+06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|5º ano Ensino Fundamental I (Turma 52)|Gincana|Misto|-
+06/05|Quarta|Tarde|Monteiro Open|13h50|Quadra Grande|5º ano Ensino Fundamental I (Turma 53)|Gincana|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|6º ano Ensino Fundamental II (Turma 61)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|6º ano Ensino Fundamental II (Turma 62)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|6º ano Ensino Fundamental II (Turma 63)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|7º ano Ensino Fundamental II (Turma 71)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|7º ano Ensino Fundamental II (Turma 72)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|7º ano Ensino Fundamental II (Turma 73)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|8º ano Ensino Fundamental II (Turma 81)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|8º ano Ensino Fundamental II (Turma 82)|Desafio Acadêmico|Misto|-
+06/05|Quarta|Tarde|Colégio Monteiro Lobato|14h00|Sala 101|8º ano Ensino Fundamental II (Turma 83)|Desafio Acadêmico|Misto|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 11)|Gincana|Misto|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 21)|Gincana|Misto|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|8h00|Quadra Coberta|3º ano Ensino Fundamental I (Turma 31)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 12)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 13)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 22)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 23)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 24)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|3º ano Ensino Fundamental I (Turma 32)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|14h00|Quadra Grande|3º ano Ensino Fundamental I (Turma 33)|Gincana|Misto|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 11)|Gincana|Misto|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h00|Quadra Coberta|2º ano Ensino Fundamental I (Turma 21)|Gincana|Misto|-
+07/05|Quinta|Manhã|Colégio Monteiro Lobato|10h00|Quadra Coberta|3º ano Ensino Fundamental I (Turma 31)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 12)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Coberta|1º ano Ensino Fundamental I (Turma 13)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Grande|2º ano Ensino Fundamental I (Turma 22)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Grande|2º ano Ensino Fundamental I (Turma 23)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra Grande|2º ano Ensino Fundamental I (Turma 24)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra de Voleibol|3º ano Ensino Fundamental I (Turma 32)|Gincana|Misto|-
+07/05|Quinta|Tarde|Colégio Monteiro Lobato|16h00|Quadra de Voleibol|3º ano Ensino Fundamental I (Turma 33)|Gincana|Misto|-`;
+
+const normalizeStr = (str) => str.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+const parseTime = (timeStr) => {
+    const firstTime = timeStr.split('/')[0].trim();
+    let hours = 0, minutes = 0;
+    const match = firstTime.match(/(\d+)[hH]?(\d*)/);
+    if (match) {
+        hours = parseInt(match[1] || 0);
+        minutes = parseInt(match[2] || 0);
+    }
+    return (hours * 60) + minutes; 
+};
+
+// Dicionário para garantir a ordem cronológica dos dias da semana
+const dayOrder = {
+    'segunda': 1,
+    'terca': 2,
+    'quarta': 3,
+    'quinta': 4,
+    'sexta': 5,
+    'sabado': 6,
+    'domingo': 7
+};
+
+// 1. DADOS BRUTOS
+const rawGames = rawData.trim().split('\n').filter(line => line.length > 0).map((line, index) => {
+  const [data, dia, turno, local, horario, quadra, turma, modalidade, genero, confronto] = line.split('|');
+  
+  // Limpeza robusta: Extrai "4º ano Ensino Fundamental I" de "4º ano Ensino Fundamental I (Turma 41)"
+  const cleanTurma = turma.replace(/\s*\(Turma\s+\d+\)\s*/i, '').trim();
+
+  // Peso cronológico do dia da semana para agrupamento principal
+  const diaNormalizado = normalizeStr(dia).replace('ç', 'c'); 
+  const dayWeight = dayOrder[diaNormalizado] || 99;
+
+  return {
+    id: `game-${index}`,
+    data, dia, turno, local, horario, quadra, turma, modalidade, genero, confronto,
+    filterTurma: cleanTurma, // Nome limpo pro UI do filtro
+    n_filterTurma: normalizeStr(cleanTurma), // Nome limpo pro motor de busca
+    n_modalidade: normalizeStr(modalidade),
+    timeVal: parseTime(horario),
+    dayWeight, // Peso para ordenação dos dias
+    catKey: `${dia}-${normalizeStr(cleanTurma)}-${normalizeStr(modalidade)}-${genero}` 
+  };
+});
+
+const isUnknownTeam = (t) => {
+    if(!t) return false;
+    const upper = t.trim().toUpperCase();
+    return upper === 'P-' || upper === 'P' || upper === 'V-' || upper === 'V';
+};
+
+// 2. INFERÊNCIA INTELIGENTE DE ADVERSÁRIOS
+const games = rawGames.map(game => {
+    let inferedTeams = null;
+    let sourceTime = null;
+    
+    const teams = game.confronto.split(/\s+[Xx]\s+/);
+    const hasUnknown = teams.some(isUnknownTeam);
+    
+    if (hasUnknown && game.confronto !== '-') {
+        const rootGame = rawGames.find(g => {
+            const rootTeams = g.confronto.split(/\s+[Xx]\s+/);
+            const isOriginalGame = !rootTeams.some(isUnknownTeam) && g.confronto !== '-';
+            return g.catKey === game.catKey && isOriginalGame && g.timeVal <= game.timeVal;
+        });
+
+        if (rootGame) {
+            inferedTeams = rootGame.confronto.split(/\s+[Xx]\s+/).map(t => t.trim());
+            sourceTime = rootGame.horario.split('/')[0];
+        }
+    }
+    return { ...game, inferedTeams, sourceTime };
+});
+
+// 3. OPÇÕES ÚNICAS PARA FILTROS
+const filterOptions = {
+    // Ordena os dias usando o dicionário
+    dias: [...new Set(games.map(g => g.dia))].sort((a,b) => {
+        const weightA = dayOrder[normalizeStr(a).replace('ç', 'c')] || 99;
+        const weightB = dayOrder[normalizeStr(b).replace('ç', 'c')] || 99;
+        return weightA - weightB;
+    }),
+    turnos: [...new Set(games.map(g => g.turno))],
+    locais: [...new Set(games.map(g => g.local))],
+    generos: ['Masc', 'Fem'], // Misto ocultado, usado apenas Masculino e Feminino
+    modalidades: [...new Set(games.map(g => g.n_modalidade))].map(n_mod => {
+        return games.find(g => g.n_modalidade === n_mod).modalidade; 
+    }).sort(),
+    // Usa os nomes limpos (sem a Turma) e ordena de forma inteligente por nível e numeral
+    turmas: [...new Set(games.map(g => g.n_filterTurma))].map(n_turm => {
+        return games.find(g => g.n_filterTurma === n_turm).filterTurma; 
+    }).sort((a,b) => {
+        const getLevelWeight = (t) => {
+            if (t.includes("Fundamental I") && !t.includes("II")) return 1;
+            if (t.includes("Fundamental II")) return 2;
+            if (t.includes("Médio")) return 3;
+            return 4;
+        };
+        const levelA = getLevelWeight(a);
+        const levelB = getLevelWeight(b);
+        if (levelA !== levelB) return levelA - levelB;
+        const numA = parseInt(a.match(/\d+/)?.[0] || 99);
+        const numB = parseInt(b.match(/\d+/)?.[0] || 99);
+        if(numA !== numB) return numA - numB;
+        return a.localeCompare(b);
+    })
+};
+
+// 4. HELPERS VISUAIS
+const getTeamColor = (team) => {
+  if (!team) return 'bg-slate-200';
+  const t = team.trim().toUpperCase();
+  if (t.includes('VERMELHO')) return 'bg-red-500';
+  if (t.includes('VERDE')) return 'bg-emerald-500';
+  if (t.includes('ROXO')) return 'bg-purple-600';
+  if (isUnknownTeam(t)) return 'bg-slate-700 text-white shadow-inner';
+  return 'bg-blue-200';
+};
+
+const formatTeamName = (team) => {
+  if (!team) return '';
+  const t = team.trim().toUpperCase();
+  if (t === 'P-' || t === 'P') return 'Perdedor';
+  if (t === 'V-' || t === 'V') return 'Vencedor';
+  return team.trim();
+};
+
+const getTeamAbreviation = (team) => {
+    const t = team.trim().toUpperCase();
+    if (t.includes('VERMELHO')) return 'Verm';
+    if (t.includes('VERDE')) return 'Verde';
+    if (t.includes('ROXO')) return 'Roxo';
+    return t;
+}
+
+// ---------------------------------------------------------------------------------
+// COMPONENTE: Filtro em Acordeão (Collapsible)
+// ---------------------------------------------------------------------------------
+const FilterSection = ({ title, icon, options, selected, onToggleFilter, isNormalized = false }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const count = selected.length;
+
+    return (
+        <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+            <button 
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 transition-colors"
+            >
+                <div className="flex items-center gap-2">
+                    <div className="text-slate-500">{icon}</div>
+                    <span className="font-bold text-slate-700">{title}</span>
+                    {count > 0 && (
+                        <span className="ml-2 bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">
+                            {count}
+                        </span>
+                    )}
+                </div>
+                {isOpen ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
+            </button>
+
+            {isOpen && (
+                <div className="p-4 bg-white border-t border-slate-100">
+                    <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto custom-scrollbar">
+                        {options.map(opt => {
+                            const val = isNormalized ? normalizeStr(opt) : opt;
+                            const isSelected = selected.includes(val);
+                            return (
+                                <button
+                                    key={opt}
+                                    onClick={() => onToggleFilter(val)}
+                                    className={`px-3 py-1.5 rounded-xl font-bold text-sm transition-all duration-200 border flex items-center gap-1.5 ${
+                                        isSelected 
+                                        ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200/50' 
+                                        : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:bg-blue-50'
+                                    }`}
+                                >
+                                    {isSelected && <Check className="w-3.5 h-3.5" />}
+                                    {opt === 'Masc' ? 'Masculino' : opt === 'Fem' ? 'Feminino' : opt}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+
+// ---------------------------------------------------------------------------------
+// APLICATIVO PRINCIPAL
+// ---------------------------------------------------------------------------------
+function App() {
+  const [selectedDias, setSelectedDias] = useState([]);
+  const [selectedTurnos, setSelectedTurnos] = useState([]);
+  const [selectedLocais, setSelectedLocais] = useState([]);
+  const [selectedTurmas, setSelectedTurmas] = useState([]);
+  const [selectedModalidades, setSelectedModalidades] = useState([]);
+  const [selectedGeneros, setSelectedGeneros] = useState([]);
+  
+  const [infoModal, setInfoModal] = useState({ isOpen: false, data: null });
+
+  const toggleFilter = (stateSetter, stateArray) => (valueToStore) => {
+    if (stateArray.includes(valueToStore)) {
+      stateSetter(stateArray.filter(item => item !== valueToStore));
+    } else {
+      stateSetter([...stateArray, valueToStore]);
+    }
+  };
+
+  const clearAllFilters = () => {
+    setSelectedDias([]); setSelectedTurnos([]); setSelectedLocais([]);
+    setSelectedTurmas([]); setSelectedModalidades([]); setSelectedGeneros([]);
+  };
+
+  const filteredGames = useMemo(() => {
+    return games.filter(game => {
+      const matchDay = selectedDias.length === 0 || selectedDias.includes(game.dia);
+      const matchTurno = selectedTurnos.length === 0 || selectedTurnos.includes(game.turno);
+      const matchLocal = selectedLocais.length === 0 || selectedLocais.includes(game.local);
+      const matchGenero = selectedGeneros.length === 0 || selectedGeneros.includes(game.genero) || game.genero === 'Misto';
+      const matchTurma = selectedTurmas.length === 0 || selectedTurmas.includes(game.n_filterTurma);
+      const matchModalidade = selectedModalidades.length === 0 || selectedModalidades.includes(game.n_modalidade);
+
+      return matchDay && matchTurno && matchLocal && matchGenero && matchTurma && matchModalidade;
+    }).sort((a, b) => {
+      // 1. Ordena pelo peso do dia da semana (Segunda vem antes de Terça, etc)
+      if (a.dayWeight !== b.dayWeight) return a.dayWeight - b.dayWeight;
+      // 2. Ordena pelo horário exato em minutos
+      return a.timeVal - b.timeVal;
+    });
+  }, [selectedDias, selectedTurnos, selectedLocais, selectedTurmas, selectedModalidades, selectedGeneros]);
+
+  // Agrupamento agora obedece rigorosamente o Dia > Horário
+  const groupedGames = useMemo(() => {
+    return filteredGames.reduce((acc, game) => {
+      const key = `${game.dia} - ${game.horario.split('/')[0].trim()}`; 
+      if (!acc[key]) acc[key] = { label: key, jogos: [], sortVal: (game.dayWeight * 10000) + game.timeVal }; // Combina o peso do dia + minutos
+      acc[key].jogos.push(game);
+      return acc;
+    }, {});
+  }, [filteredGames]);
+  
+  const sortedGroups = Object.values(groupedGames).sort((a, b) => a.sortVal - b.sortVal);
+  const resultCount = filteredGames.length;
+  
+  // Array de todos os filtros ativos para a barra superior
+  const activeFiltersRaw = [
+    ...selectedDias.map(v => ({ type: 'dia', val: v, label: v, setter: setSelectedDias, arr: selectedDias })),
+    ...selectedTurnos.map(v => ({ type: 'turno', val: v, label: v, setter: setSelectedTurnos, arr: selectedTurnos })),
+    ...selectedLocais.map(v => ({ type: 'local', val: v, label: v, setter: setSelectedLocais, arr: selectedLocais })),
+    ...selectedGeneros.map(v => ({ type: 'genero', val: v, label: v === 'Masc' ? 'Masculino' : v === 'Fem' ? 'Feminino' : v, setter: setSelectedGeneros, arr: selectedGeneros })),
+    ...selectedModalidades.map(v => ({ type: 'modalidade', val: v, label: filterOptions.modalidades.find(m => normalizeStr(m) === v) || v, setter: setSelectedModalidades, arr: selectedModalidades })),
+    ...selectedTurmas.map(v => ({ type: 'turma', val: v, label: filterOptions.turmas.find(t => normalizeStr(t) === v) || v, setter: setSelectedTurmas, arr: selectedTurmas })),
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-100 font-sans pb-12">
+      
+      {/* MODAL DE INFORMAÇÃO */}
+      {infoModal.isOpen && infoModal.data && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200">
+              <div className="bg-blue-600 p-4 text-white flex justify-between items-center">
+                  <h3 className="font-black flex items-center gap-2">
+                      <HelpCircle className="w-5 h-5" /> Origem da Vaga
+                  </h3>
+                  <button onClick={() => setInfoModal({isOpen: false, data: null})} className="p-1 bg-blue-700 hover:bg-blue-800 rounded-full transition-colors">
+                      <X className="w-5 h-5" />
+                  </button>
+              </div>
+              <div className="p-6 text-center">
+                  <p className="text-slate-600 mb-4 text-sm leading-relaxed">
+                      Esta vaga será ocupada pelo <strong className="text-slate-800">{infoModal.data.isP ? 'PERDEDOR' : 'VENCEDOR'}</strong> da partida disputada às <strong className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{infoModal.data.game.sourceTime}</strong>.
+                  </p>
+                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl flex items-center justify-center gap-4">
+                      <div className="flex flex-col items-center">
+                          <div className={`w-10 h-10 rounded-full ${getTeamColor(infoModal.data.game.inferedTeams[0])}`}></div>
+                          <span className="text-[10px] font-black uppercase mt-2">{getTeamAbreviation(infoModal.data.game.inferedTeams[0])}</span>
+                      </div>
+                      <span className="text-slate-300 font-black italic">X</span>
+                      <div className="flex flex-col items-center">
+                          <div className={`w-10 h-10 rounded-full ${getTeamColor(infoModal.data.game.inferedTeams[1])}`}></div>
+                          <span className="text-[10px] font-black uppercase mt-2">{getTeamAbreviation(infoModal.data.game.inferedTeams[1])}</span>
+                      </div>
+                  </div>
+                  <button 
+                      onClick={() => setInfoModal({isOpen: false, data: null})} 
+                      className="mt-6 w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors"
+                  >
+                      Entendi
+                  </button>
+              </div>
+           </div>
+        </div>
+      )}
+
+      {/* HEADER */}
+      <header className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white pt-10 pb-8 px-4 shadow-xl">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="bg-white/10 p-3 rounded-2xl backdrop-blur-md">
+                <Trophy className="w-8 h-8 text-yellow-400" />
+              </div>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-black tracking-tight mb-1">
+                  Jogos Escolares 2026
+                </h1>
+                <p className="text-blue-200 font-medium text-xs md:text-sm flex items-center gap-2">
+                  <MapPin className="w-4 h-4" /> Colégio Monteiro Lobato
+                </p>
+              </div>
+            </div>
+        </div>
+      </header>
+
+      <main className="max-w-4xl mx-auto px-4 mt-6">
+        
+        {/* BARRA DE FILTROS ATIVOS */}
+        {activeFiltersRaw.length > 0 && (
+            <div className="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-wider">Filtros Aplicados</span>
+                    <button onClick={clearAllFilters} className="text-xs font-bold text-red-500 hover:text-red-700 transition-colors">Limpar Todos</button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                    {activeFiltersRaw.map((filter, i) => (
+                        <span key={i} className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold rounded-lg">
+                            {filter.label}
+                            <button 
+                                onClick={() => toggleFilter(filter.setter, filter.arr)(filter.val)}
+                                className="p-0.5 hover:bg-blue-200 rounded-md transition-colors text-blue-500 hover:text-blue-800"
+                            >
+                                <X className="w-3.5 h-3.5" />
+                            </button>
+                        </span>
+                    ))}
+                </div>
+            </div>
+        )}
+
+        {/* PAINEL DE FILTROS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+            <FilterSection title="Dias" icon={<Calendar className="w-5 h-5"/>} options={filterOptions.dias} selected={selectedDias} onToggleFilter={toggleFilter(setSelectedDias, selectedDias)} />
+            <FilterSection title="Turnos" icon={<Clock className="w-5 h-5"/>} options={filterOptions.turnos} selected={selectedTurnos} onToggleFilter={toggleFilter(setSelectedTurnos, selectedTurnos)} />
+            <FilterSection title="Locais" icon={<MapPin className="w-5 h-5"/>} options={filterOptions.locais} selected={selectedLocais} onToggleFilter={toggleFilter(setSelectedLocais, selectedLocais)} />
+            <FilterSection title="Categorias" icon={<Users className="w-5 h-5"/>} options={filterOptions.generos} selected={selectedGeneros} onToggleFilter={toggleFilter(setSelectedGeneros, selectedGeneros)} />
+            <FilterSection title="Modalidades" icon={<Activity className="w-5 h-5"/>} options={filterOptions.modalidades} selected={selectedModalidades} onToggleFilter={toggleFilter(setSelectedModalidades, selectedModalidades, true)} isNormalized={true} />
+            <FilterSection title="Turmas" icon={<Users className="w-5 h-5"/>} options={filterOptions.turmas} selected={selectedTurmas} onToggleFilter={toggleFilter(setSelectedTurmas, selectedTurmas, true)} isNormalized={true} />
+        </div>
+
+        <div className="flex items-center justify-between mb-8 px-1">
+          <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
+            Cronograma
+          </h2>
+          <span className="bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1 rounded-md">
+            {resultCount} {resultCount === 1 ? 'evento' : 'eventos'}
+          </span>
+        </div>
+
+        {/* LISTAGEM DE EVENTOS */}
+        <div className="space-y-12">
+          {resultCount === 0 ? (
+            <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm">
+              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Trophy className="w-10 h-10 text-slate-300" />
+              </div>
+              <h3 className="text-xl font-black text-slate-700">Nenhum evento encontrado</h3>
+              <p className="text-slate-500 mt-2 text-sm">Altere ou limpe os filtros para ver as atividades.</p>
+              <button 
+                onClick={clearAllFilters}
+                className="mt-6 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md"
+              >
+                Remover Filtros
+              </button>
+            </div>
+          ) : (
+            sortedGroups.map((grupo, idx) => (
+              <div key={idx} className="relative">
+                <div className="flex items-center mb-6 sticky top-4 z-10">
+                  <div className="bg-slate-800 text-white px-5 py-2.5 rounded-2xl font-black text-base shadow-xl shadow-slate-900/10 flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-amber-400" />
+                    {grupo.label.split(' - ')[0]} 
+                    <span className="text-slate-400 font-normal mx-0.5">|</span>
+                    <Clock className="w-4 h-4 text-cyan-400" />
+                    {grupo.label.split(' - ')[1]}
+                  </div>
+                  <div className="h-0.5 bg-slate-200 flex-1 ml-4 rounded-full"></div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {grupo.jogos.map((game) => {
+                     const isGincana = game.modalidade.toLowerCase().includes('gincana') || game.modalidade.toLowerCase().includes('desafio acad');
+                     
+                     // Extrai "Turma 41" do string para exibição na Gincana
+                     const specificTurmaMatch = game.turma.match(/(Turma\s+\d+)/i);
+                     const displayTurma = specificTurmaMatch ? specificTurmaMatch[1] : game.filterTurma;
+
+                     const teams = game.confronto.split(/\s+[Xx]\s+/);
+                     const team1 = teams[0];
+                     const team2 = teams[1];
+                     
+                     const isP1 = isUnknownTeam(team1) && team1.includes('P');
+                     const isP2 = isUnknownTeam(team2) && team2.includes('P');
+                     const isV1 = isUnknownTeam(team1) && team1.includes('V');
+                     const isV2 = isUnknownTeam(team2) && team2.includes('V');
+
+                     const hasInfered1 = (isP1 || isV1) && game.inferedTeams;
+                     const hasInfered2 = (isP2 || isV2) && game.inferedTeams;
+
+                     return (
+                    <div key={game.id} className="bg-white rounded-3xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-200 flex flex-col h-full">
+                      
+                      {/* HEADER DO CARD */}
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider max-w-[70%] truncate" title={game.filterTurma}>
+                          {game.filterTurma}
+                        </span>
+                        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide flex items-center shrink-0 ${
+                          game.genero === 'Masc' ? 'bg-cyan-50 text-cyan-700' : game.genero === 'Fem' ? 'bg-pink-50 text-pink-700' : 'bg-violet-50 text-violet-700'
+                        }`}>
+                          {game.genero === 'Masc' ? 'MASC' : game.genero === 'Fem' ? 'FEM' : 'MISTO'}
+                        </span>
+                      </div>
+
+                      {/* CORPO DO CARD */}
+                      <div className="flex-1 flex flex-col justify-center">
+                        <h3 className="text-base font-black text-slate-800 text-center mb-4 flex justify-center items-center gap-2 uppercase tracking-wide">
+                          <Activity className="w-4 h-4 text-slate-300" />
+                          {game.modalidade}
+                        </h3>
+
+                        {game.confronto !== '-' && team1 && team2 ? (
+                          <div className="flex items-center justify-center gap-2 bg-slate-50 border border-slate-100 py-4 px-2 rounded-2xl">
+                            {/* TIME 1 */}
+                            <div className="flex flex-col items-center flex-1">
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-black shadow-inner ${getTeamColor(team1)}`}>
+                                  {isUnknownTeam(team1) ? team1.replace('-','') : ''}
+                                </div>
+                                <div className="flex flex-col items-center justify-start mt-2 h-14 w-full">
+                                    <span className="text-[10px] leading-tight font-black text-slate-600 text-center uppercase">
+                                      {formatTeamName(team1)}
+                                    </span>
+                                    {hasInfered1 && (
+                                       <button 
+                                          onClick={(e) => { e.preventDefault(); setInfoModal({isOpen: true, data: {isP: isP1, game}}); }}
+                                          className="mt-1.5 px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 active:bg-blue-300 rounded-full text-[9px] font-black flex items-center gap-1 transition-colors uppercase tracking-widest shadow-sm outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+                                       >
+                                          <Info className="w-3 h-3" /> Info
+                                       </button>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            <span className="text-slate-300 font-black italic text-sm w-4 text-center self-start mt-3">X</span>
+                            
+                            {/* TIME 2 */}
+                            <div className="flex flex-col items-center flex-1">
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-black shadow-inner ${getTeamColor(team2)}`}>
+                                  {isUnknownTeam(team2) ? team2.replace('-','') : ''}
+                                </div>
+                                <div className="flex flex-col items-center justify-start mt-2 h-14 w-full">
+                                    <span className="text-[10px] leading-tight font-black text-slate-600 text-center uppercase">
+                                      {formatTeamName(team2)}
+                                    </span>
+                                    {hasInfered2 && (
+                                       <button 
+                                          onClick={(e) => { e.preventDefault(); setInfoModal({isOpen: true, data: {isP: isP2, game}}); }}
+                                          className="mt-1.5 px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 active:bg-blue-300 rounded-full text-[9px] font-black flex items-center gap-1 transition-colors uppercase tracking-widest shadow-sm outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
+                                       >
+                                          <Info className="w-3 h-3" /> Info
+                                       </button>
+                                    )}
+                                </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className={`text-center py-6 rounded-2xl flex flex-col items-center justify-center border ${isGincana ? 'bg-violet-50 border-violet-100' : 'bg-slate-50 border-slate-100'}`}>
+                            <Users className={`w-8 h-8 mb-2 ${isGincana ? 'text-violet-300' : 'text-slate-300'}`} />
+                            <span className={`text-sm font-black uppercase tracking-widest px-4 ${isGincana ? 'text-violet-600' : 'text-slate-500'}`}>
+                              {isGincana ? displayTurma : 'Prova Individual'}
+                            </span>
+                            <span className={`text-[9px] font-bold mt-1 uppercase ${isGincana ? 'text-violet-400' : 'text-slate-400'}`}>
+                              {isGincana ? 'Gincana / Atividade' : 'Tomada de Tempo'}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t border-slate-100">
+                        <div className="flex items-center text-slate-500 text-xs font-bold px-1">
+                          <MapPin className="w-3 h-3 mr-1.5 text-indigo-400 shrink-0" />
+                          <span className="truncate">{game.local} <span className="text-slate-300 mx-1">•</span> {game.quadra}</span>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  )})}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 6px;}
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+      `}} />
+    </div>
+  );
+}
+
+createRoot(document.getElementById('root')).render(<App />);
+
+  </script>
+</body>
+</html>
